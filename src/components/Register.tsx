@@ -21,9 +21,7 @@ const Register: React.FC = () => {
         "len",
         "The username must be between 3 and 20 characters.",
         (val: any) =>
-          val &&
-          val.toString().length >= 3 &&
-          val.toString().length <= 20
+          val && val.toString().length >= 3 && val.toString().length <= 20
       )
       .required("This field is required!"),
     email: Yup.string()
@@ -34,9 +32,7 @@ const Register: React.FC = () => {
         "len",
         "The password must be between 6 and 40 characters.",
         (val: any) =>
-          val &&
-          val.toString().length >= 6 &&
-          val.toString().length <= 40
+          val && val.toString().length >= 6 && val.toString().length <= 40
       )
       .required("This field is required!"),
   });
@@ -46,8 +42,11 @@ const Register: React.FC = () => {
 
     register(username, email, password).then(
       (response) => {
-        setMessage(response.data.message);
-        setSuccessful(true);
+        if (response === null) {
+        } else {
+          setMessage(response.data.message);
+          setSuccessful(true);
+        }
       },
       (error) => {
         const resMessage =
@@ -114,7 +113,9 @@ const Register: React.FC = () => {
                 </div>
 
                 <div className="form-group">
-                  <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
+                  <button type="submit" className="btn btn-primary btn-block">
+                    Sign Up
+                  </button>
                 </div>
               </div>
             )}

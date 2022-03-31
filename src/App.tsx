@@ -18,7 +18,7 @@ import Home from "./components/Home";
 import EventBus from "./common/EventBus";
 import Working from "./components/Working";
 import Collections from "./components/Collections";
-import Product from "./components/Product";
+import ProductPage from "./components/Product";
 
 const App: React.FC = () => {
   // const [showModeratorBoard, setShowModeratorBoard] = useState<boolean>(false);
@@ -202,7 +202,7 @@ const App: React.FC = () => {
           <Route exact path="/register" component={Register} />
           <Route exact path="/working" component={Working} />
           <Route exact path="/collections" component={Collections} />
-          <Route exact path="/product" component={Product} />
+          <Route exact path="/product" component={ProductPage} />
           {/* <Route exact path="/profile" component={Profile} /> */}
           {/* <Route path="/user" component={BoardUser} />
           <Route path="/mod" component={BoardModerator} />
