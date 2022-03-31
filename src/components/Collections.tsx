@@ -82,17 +82,19 @@ const CustomCard = styled(Card)`
 
 const productRepostory = new ProductRepo();
 
-const products : Product[] = productRepostory.getProducts();
+const products: Product[] = productRepostory.getProducts();
 
 function productCards() {
   return products.map((product) => (
-    <CustomCard key={product.id}>
-      <img src={product.image} alt={product.name} />
-      <div>
-        <h5>{product.name}</h5>
-        <h6>{product.price}</h6>
-      </div>
-    </CustomCard>
+    <Link to="/product">
+      <CustomCard key={product.id}>
+        <img src={product.image} alt={product.name} />
+        <div>
+          <h5>{product.name}</h5>
+          <h6>{product.price}</h6>
+        </div>
+      </CustomCard>
+    </Link>
   ));
 }
 
@@ -141,9 +143,7 @@ const Collections: React.FC = () => {
 
       <Content>
         <h2>Products</h2>
-        <Table>
-          {productCards()}
-        </Table>
+        <Table>{productCards()}</Table>
       </Content>
     </CollectionsPageDiv>
   );
