@@ -17,6 +17,8 @@ import Home from "./components/Home";
 
 import EventBus from "./common/EventBus";
 import Working from "./components/Working";
+import Collections from "./components/Collections";
+import Product from "./components/Product";
 
 const App: React.FC = () => {
   // const [showModeratorBoard, setShowModeratorBoard] = useState<boolean>(false);
@@ -139,7 +141,7 @@ const App: React.FC = () => {
 
             <div className="navbar-nav">
               <li className="nav-item rounded">
-                <Link to={"/working"} className="nav-link">
+                <Link to={"/collections"} className="nav-link">
                   Collections
                 </Link>
               </li>
@@ -193,12 +195,14 @@ const App: React.FC = () => {
         </div>
       </nav>
 
-      <div className="container mt-3">
+      <div>
         <Switch>
           <Route exact path={["/", "/home"]} component={Home} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/register" component={Register} />
           <Route exact path="/working" component={Working} />
+          <Route exact path="/collections" component={Collections} />
+          <Route exact path="/product" component={Product} />
           {/* <Route exact path="/profile" component={Profile} /> */}
           {/* <Route path="/user" component={BoardUser} />
           <Route path="/mod" component={BoardModerator} />
