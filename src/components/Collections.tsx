@@ -2,12 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Button, Card } from "@material-ui/core";
+import { ProductRepo } from "../modal/Product.repository";
+import { Product } from "../modal/Product";
 
 const CollectionsPageDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-//   background-color: #2ff;
+  //   background-color: #2ff;
 
   margin: 10px;
 `;
@@ -29,10 +31,10 @@ const SidebarDiv = styled.div`
 const Content = styled.div`
   display: flex;
   flex-direction: column;
-//   background-color: #0f6cfc;
+  //   background-color: #0f6cfc;
 
   width: 80%;
-  
+
   border: 3px solid;
   border-radius: 10px;
 `;
@@ -47,8 +49,8 @@ const CustomCard = styled(Card)`
   overflow-y: scroll;
   gap: 15px;
   padding: 15px;
-  width: 170px;
-  height: 250px;
+  width: 300px;
+  height: 300px;
   background: #2e2e2e !important;
 
   img {
@@ -78,16 +80,37 @@ const CustomCard = styled(Card)`
   }
 `;
 
+const productRepostory = new ProductRepo();
+
+const products : Product[] = productRepostory.getProducts();
+
+function productCards() {
+  return products.map((product) => (
+    <CustomCard key={product.id}>
+      <img src={product.image} alt={product.name} />
+      <div>
+        <h5>{product.name}</h5>
+        <h6>{product.price}</h6>
+      </div>
+    </CustomCard>
+  ));
+}
+
 const Collections: React.FC = () => {
   return (
     <CollectionsPageDiv>
       <SidebarDiv>
-        
         {/* GEÇİCİ */}
-        <Button style={{
+        <Button
+          style={{
             border: "1px solid",
-            marginTop: "5px"}}
-            component={Link} to="/product">Producta gider</Button>
+            marginTop: "5px",
+          }}
+          component={Link}
+          to="/product"
+        >
+          Producta gider
+        </Button>
         {/* GEÇİCİ */}
 
         <div>
@@ -119,7 +142,7 @@ const Collections: React.FC = () => {
       <Content>
         <h2>Products</h2>
         <Table>
-          <CustomCard></CustomCard>
+          {productCards()}
         </Table>
       </Content>
     </CollectionsPageDiv>
