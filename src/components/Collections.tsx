@@ -52,8 +52,8 @@ const CustomCard = styled(Card)`
   background: #2e2e2e !important;
 
   img {
-    width: 170px;
-    height: 170px;
+    width: 100%;
+    height: 100%;
     border-radius: 4px;
   }
 
