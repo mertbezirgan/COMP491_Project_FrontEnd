@@ -50,7 +50,7 @@ const CustomCard = styled(Card)`
   gap: 15px;
   padding: 15px;
   width: 300px;
-  height: 300px;
+  height: 350px;
   background: #2e2e2e !important;
 
   img {
