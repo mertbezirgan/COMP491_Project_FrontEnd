@@ -1,18 +1,31 @@
 import axios from "axios";
+import { authRoutes } from "../constants/routes";
 
-const API_URL = "http://localhost:3000/api/auth/";
+export const register = async (
+  username: string,
+  email: string,
+  password: string
+) => {
+  try {
+    let data = await axios.post(authRoutes.register, {
+      email: email,
+      password: password,
+      name: username,
+    });
+    // TODO token alınacak ve localstorage'a eklenecek
 
-export const register = (username: string, email: string, password: string) => {
-  return axios.post(API_URL + "signup", {
-    username,
-    email,
-    password,
-  });
+    return data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 };
 
 export const login = (username: string, password: string) => {
+  // TODO token alınacak ve localstorage'a eklenecek
+
   return axios
-    .post(API_URL + "signin", {
+    .post(authRoutes.login, {
       username,
       password,
     })
