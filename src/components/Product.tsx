@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { Button, Card } from "@material-ui/core";
 import Select, { components, ControlProps } from "react-select";
-import { ProductRepo } from "../modal/Product.repository";
-import { Product } from "../modal/Product";
+import { ProductRepo } from "../modal/Product/Product.repository";
+import { Product } from "../modal/Product/Product";
 
 const productRepostory = new ProductRepo();
 
@@ -85,9 +85,9 @@ const DescriptionDiv = styled.div`
   justify-content: space-between;
 
   // background-color: #0f6cfc;
-  
+
   align-items: center;
-  
+
   width: 100%;
   height: 100%;
 
@@ -101,9 +101,9 @@ const PropertiesDiv = styled.div`
   justify-content: space-between;
 
   // background-color: #0f6cfc;
-  
+
   align-items: center;
-  
+
   width: 100%;
   height: 100%;
 
@@ -119,9 +119,9 @@ const PropertiesPortion = styled.div`
   padding: 10px;
 
   // background-color: #0f6cfc;
-  
+
   align-items: center;
-  
+
   width: 100%;
   height: 100%;
 `;
@@ -132,9 +132,9 @@ const MiniPropertiesDiv = styled.div`
   justify-content: space-between;
 
   background-color: #039be5;
-  
+
   align-items: center;
-  
+
   width: 100%;
   height: 100%;
 
@@ -220,10 +220,12 @@ const ProductPage: React.FC = () => {
         <TopPageDiv>
           <LeftDiv>
             <ImageDiv>
-              <img src={myProduct.image}
+              <img
+                src={myProduct.image}
                 style={{
                   width: "300px",
-                }}></img>
+                }}
+              ></img>
             </ImageDiv>
             <DescriptionDiv>
               <h5>Created by {myProduct.created_by}</h5>
@@ -272,20 +274,22 @@ const ProductPage: React.FC = () => {
               </h2>
             </div>
             <div>
-              <h3>
-                {myProduct.description}
-              </h3>
+              <h3>{myProduct.description}</h3>
             </div>
-            <div style={{
-              textAlign: "center",
-              margin: "10px",
-            }}>
+            <div
+              style={{
+                textAlign: "center",
+                margin: "10px",
+              }}
+            >
               <h5>{myProduct.price}₺</h5>
             </div>
-            <div style={{
-              textAlign: "center",
-              margin: "10px",
-            }}>
+            <div
+              style={{
+                textAlign: "center",
+                margin: "10px",
+              }}
+            >
               <Select
                 defaultValue={colourOptions[0]}
                 isClearable
