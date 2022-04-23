@@ -195,7 +195,7 @@ const App: React.FC = () => {
         </div>
       </nav>
 
-      <div>
+      {/* <div> */}
         <Switch>
           <Route exact path={["/", "/home"]} component={Home} />
           <Route exact path="/login" component={Login} />
@@ -208,7 +208,7 @@ const App: React.FC = () => {
           <Route path="/mod" component={BoardModerator} />
           <Route path="/admin" component={BoardAdmin} /> */}
         </Switch>
-      </div>
+      {/* </div> */}
     </div>
   );
 };
