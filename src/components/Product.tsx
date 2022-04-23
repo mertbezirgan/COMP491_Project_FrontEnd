@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { Button, Card } from "@material-ui/core";
 import Select, { components, ControlProps } from "react-select";
-import { ProductRepo } from "../modal/Product.repository";
-import { Product } from "../modal/Product";
+import { ProductRepo } from "../modal/Product/Product.repository";
+import { Product } from "../modal/Product/Product";
 
 const productRepostory = new ProductRepo();
 
@@ -122,7 +122,7 @@ const ProductPage: React.FC = () => {
             }}
           >
             <Table>
-              <img src={myProduct.image}
+              <img src={myProduct.images[0]}
               style={{
                 width: "300px",
               }}></img>
