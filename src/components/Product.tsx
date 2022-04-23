@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { Button, Card } from "@material-ui/core";
 import Select, { components, ControlProps } from "react-select";
-import { ProductRepo } from "../modal/Product/Product.repository";
-import { Product } from "../modal/Product/Product";
+import { ProductRepo } from "../modal/Product.repository";
+import { Product } from "../modal/Product";
 
 const productRepostory = new ProductRepo();
 
@@ -211,12 +211,19 @@ const CustomCard = styled(Card)`
   }
 `;
 
+const Styles = styled.div`
+  .myClass {
+    color: red;
+  }
+`;
+
 console.log(myProduct);
 const ProductPage: React.FC = () => {
   return (
-    <div>
-      <h1>Product</h1>
-      <PageMainDiv>
+    <Styles>
+      <div>
+        <h1 className="myClass">Product</h1>
+        {/* <PageMainDiv>
         <TopPageDiv>
           <LeftDiv>
             <ImageDiv>
@@ -331,8 +338,9 @@ const ProductPage: React.FC = () => {
             <h5>Date</h5>
           </ItemActivityMiniDiv>
         </ItemsActivityDiv>
-      </PageMainDiv>
-    </div>
+      </PageMainDiv> */}
+      </div>
+    </Styles>
   );
 };
 
