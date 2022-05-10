@@ -224,121 +224,121 @@ const ProductPage: React.FC = () => {
       <div>
         <h1 className="myClass">Product</h1>
         {/* <PageMainDiv>
-        <TopPageDiv>
-          <LeftDiv>
-            <ImageDiv>
-              <img
-                src={myProduct.image}
+          <TopPageDiv>
+            <LeftDiv>
+              <ImageDiv>
+                <img
+                  src={myProduct.image}
+                  style={{
+                    width: "300px",
+                  }}
+                ></img>
+              </ImageDiv>
+              <DescriptionDiv>
+                <h5>Created by {myProduct.created_by}</h5>
+                <h6>{myProduct.description}</h6>
+              </DescriptionDiv>
+              <PropertiesDiv>
+                <h5>Properties</h5>
+                <PropertiesPortion>
+                  <MiniPropertiesDiv>
+                    <h6>Artist</h6>
+                    <h6>{myProduct.artist}</h6>
+                  </MiniPropertiesDiv>
+                  <MiniPropertiesDiv>
+                    <h6>Name</h6>
+                    <h6>{myProduct.name}</h6>
+                  </MiniPropertiesDiv>
+                  <MiniPropertiesDiv>
+                    <h6>Project</h6>
+                    <h6>{myProduct.project}</h6>
+                  </MiniPropertiesDiv>
+                </PropertiesPortion>
+                <PropertiesPortion>
+                  <MiniPropertiesDiv>
+                    <h6>Release Year</h6>
+                    <h6>{myProduct.year}</h6>
+                  </MiniPropertiesDiv>
+                  <MiniPropertiesDiv>
+                    <h6>Released by</h6>
+                    <h6>{myProduct.created_by}</h6>
+                  </MiniPropertiesDiv>
+                  <MiniPropertiesDiv>
+                    <h6>Type</h6>
+                    <h6>{myProduct.type}</h6>
+                  </MiniPropertiesDiv>
+                </PropertiesPortion>
+              </PropertiesDiv>
+            </LeftDiv>
+            <RightDiv>
+              <div>
+                <h2
+                  style={{
+                    fontWeight: "bold",
+                  }}
+                >
+                  {myProduct.name}
+                </h2>
+              </div>
+              <div>
+                <h3>{myProduct.description}</h3>
+              </div>
+              <div
                 style={{
-                  width: "300px",
+                  textAlign: "center",
+                  margin: "10px",
                 }}
-              ></img>
-            </ImageDiv>
-            <DescriptionDiv>
-              <h5>Created by {myProduct.created_by}</h5>
-              <h6>{myProduct.description}</h6>
-            </DescriptionDiv>
-            <PropertiesDiv>
-              <h5>Properties</h5>
-              <PropertiesPortion>
-                <MiniPropertiesDiv>
-                  <h6>Artist</h6>
-                  <h6>{myProduct.artist}</h6>
-                </MiniPropertiesDiv>
-                <MiniPropertiesDiv>
-                  <h6>Name</h6>
-                  <h6>{myProduct.name}</h6>
-                </MiniPropertiesDiv>
-                <MiniPropertiesDiv>
-                  <h6>Project</h6>
-                  <h6>{myProduct.project}</h6>
-                </MiniPropertiesDiv>
-              </PropertiesPortion>
-              <PropertiesPortion>
-                <MiniPropertiesDiv>
-                  <h6>Release Year</h6>
-                  <h6>{myProduct.year}</h6>
-                </MiniPropertiesDiv>
-                <MiniPropertiesDiv>
-                  <h6>Released by</h6>
-                  <h6>{myProduct.created_by}</h6>
-                </MiniPropertiesDiv>
-                <MiniPropertiesDiv>
-                  <h6>Type</h6>
-                  <h6>{myProduct.type}</h6>
-                </MiniPropertiesDiv>
-              </PropertiesPortion>
-            </PropertiesDiv>
-          </LeftDiv>
-          <RightDiv>
-            <div>
-              <h2
+              >
+                <h5>{myProduct.price}₺</h5>
+              </div>
+              <div
                 style={{
+                  textAlign: "center",
+                  margin: "10px",
+                }}
+              >
+                <Select
+                  defaultValue={colourOptions[0]}
+                  isClearable
+                  components={{ Control: ControlComponent }}
+                  isSearchable
+                  name="color"
+                  options={colourOptions}
+                />
+              </div>
+              <Button
+                style={{
+                  minHeight: "auto",
+                  minWidth: "auto",
+                  border: "1px solid",
+                  borderRadius: "15px",
+                  marginTop: "50px",
+                  fontSize: "50px",
                   fontWeight: "bold",
                 }}
               >
-                {myProduct.name}
-              </h2>
-            </div>
-            <div>
-              <h3>{myProduct.description}</h3>
-            </div>
-            <div
-              style={{
-                textAlign: "center",
-                margin: "10px",
-              }}
-            >
-              <h5>{myProduct.price}₺</h5>
-            </div>
-            <div
-              style={{
-                textAlign: "center",
-                margin: "10px",
-              }}
-            >
-              <Select
-                defaultValue={colourOptions[0]}
-                isClearable
-                components={{ Control: ControlComponent }}
-                isSearchable
-                name="color"
-                options={colourOptions}
-              />
-            </div>
-            <Button
-              style={{
-                minHeight: "auto",
-                minWidth: "auto",
-                border: "1px solid",
-                borderRadius: "15px",
-                marginTop: "50px",
-                fontSize: "50px",
-                fontWeight: "bold",
-              }}
-            >
-              Buy NOW
-            </Button>
-          </RightDiv>
-        </TopPageDiv>
-        <ItemsActivityDiv>
-          <h2>Item Activity</h2>
-          <ItemActivityMiniDiv>
-            <h5>Event</h5>
-            <h5>Price</h5>
-            <h5>From</h5>
-            <h5>To</h5>
-            <h5>Date</h5>
-          </ItemActivityMiniDiv>
-          <ItemActivityMiniDiv>
-            <h5>{}</h5>
-            <h5>Price</h5>
-            <h5>From</h5>
-            <h5>To</h5>
-            <h5>Date</h5>
-          </ItemActivityMiniDiv>
-        </ItemsActivityDiv>
-      </PageMainDiv> */}
+                Buy NOW
+              </Button>
+            </RightDiv>
+          </TopPageDiv>
+          <ItemsActivityDiv>
+            <h2>Item Activity</h2>
+            <ItemActivityMiniDiv>
+              <h5>Event</h5>
+              <h5>Price</h5>
+              <h5>From</h5>
+              <h5>To</h5>
+              <h5>Date</h5>
+            </ItemActivityMiniDiv>
+            <ItemActivityMiniDiv>
+              <h5>{}</h5>
+              <h5>Price</h5>
+              <h5>From</h5>
+              <h5>To</h5>
+              <h5>Date</h5>
+            </ItemActivityMiniDiv>
+          </ItemsActivityDiv>
+        </PageMainDiv> */}
       </div>
     </Styles>
   );

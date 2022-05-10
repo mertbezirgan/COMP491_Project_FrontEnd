@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ProductRepo } from "../modal/Product/Product.repository";
 import { Product } from "../modal/Product/Product";
 import ItemCard from "./ItemCard";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import Slider from "@material-ui/core/Slider";
+import { listProduct } from "../services/Product/product.service";
 import InputLabel from "@material-ui/core/InputLabel";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import FormControl from "@material-ui/core/FormControl";
@@ -162,17 +164,13 @@ const productsss = [
   },
 ]
 
-const productRepostory = new ProductRepo();
-
-const products: Product[] = productRepostory.getProducts();
-
-function productCards() {
-  return products.map((product) => (
-    // <Link to="/product" key={product.id}>
-    <ItemCard data={product} />
-    // </Link>
-  ));
-}
+// const productCards = (products: Product[]) => {
+//   return products.map((product) => (
+//     // <Link to="/product" key={product.id}>
+//     <ItemCard data={product} />
+//     // </Link>
+//   ));
+// };
 
 const Collections: React.FC = () => {
   const [checked, setChecked] = React.useState({
@@ -180,6 +178,8 @@ const Collections: React.FC = () => {
     notOwned: true,
   });
 
+  const [price, setPrice] = React.useState<number[]>([0, 100]);
+  const [productsList, setproductsList] = useState<Product[]>([]);
   const [extendOwned, setExtendOwned] = React.useState(false);
 
   const [minPrice, setMinPrice] = React.useState<number>(0);
@@ -206,6 +206,23 @@ const Collections: React.FC = () => {
   const handleExtendOwned = () => {
     setExtendOwned(!extendOwned);
   };
+
+  useEffect(() => {
+    const input = {
+      limit: 10,
+      offset: 0,
+    };
+    const fetch = async () => {
+      const data = await listProduct(input);
+      setproductsList(data.data);
+      return data.data;
+    };
+    const res = fetch();
+  }, []);
+
+  useEffect(() => {
+    console.log(productsList);
+  }, [productsList]);
 
   return (
     <CollectionsPageDiv>
