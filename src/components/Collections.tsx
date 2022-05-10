@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import { ProductRepo } from "../modal/Product/Product.repository";
 import { Product } from "../modal/Product/Product";
 import ItemCard from "./ItemCard";
@@ -8,6 +7,11 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Slider from "@material-ui/core/Slider";
 import { listProduct } from "../services/Product/product.service";
+import InputLabel from "@material-ui/core/InputLabel";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import FormControl from "@material-ui/core/FormControl";
+import Input from "@material-ui/core/Input";
+import Button from "@material-ui/core/Button";
 
 const CollectionsPageDiv = styled.div`
   display: flex;
@@ -21,7 +25,8 @@ const CollectionsPageDiv = styled.div`
 const SidebarDiv = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
 
   width: 300px;
   height: 100%;
@@ -33,6 +38,16 @@ const SidebarDiv = styled.div`
 const Filter = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const FilterTitle = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 12px;
+  font-weight: bold;
 `;
 
 const Content = styled.div`
@@ -53,24 +68,101 @@ const Table = styled.div`
   flex-flow: row wrap;
 `;
 
-const marks = [
+const Seperator = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: #ccc;
+  margin-top: 15px;
+  margin-bottom: 15px;
+`;
+
+const ExtendButton = styled(Button)`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
+
+const FilterInfoBar = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+
+  padding: 10px;
+
+  font-size: 12px;
+  border-radius: 10px;
+  background-color: #87c3e1;
+  
+  div {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    border: 1px solid;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+`;
+
+const productsss = [
   {
-    value: 0,
-    label: "0",
+    name: "Gray summer hoodie",
+    price: "200",
+    description: "Good for hot summer days",
+    images: [
+      "https://cdn.dsmcdn.com/ty47/product/media/images/20210107/11/48098883/109495684/1/1_org_zoom.jpg"
+    ]
   },
   {
-    value: 100,
-    label: "100",
+    name: "Black t-shirt",
+    price: "123",
+    description: "asdgdsf",
+    images: [
+      "https://productimages.hepsiburada.net/l/20/600-800/9868106498098.jpg"
+    ]
   },
   {
-    value: 200,
-    label: "200",
+    name: "Cactus",
+    price: "40",
+    description: "asdgdsf",
+    images: [
+"https://productimages.hepsiburada.net/l/37/600-800/10544243933234.jpg"
+    ]
+
   },
   {
-    value: 300,
-    label: "300",
+    name: "Skull T",
+    price: "120",
+    description: "asdgdsf",
+    images: [
+      "https://cdn-merchant.ganipara.com/assets/5603/product/329597/venti_bodrum-skull-tasarim-baskili-tisort-erkek-tisort-baski-1586024832.jpg"
+    ]
+
   },
-];
+  {
+    name: "White t-shirt",
+    price: "50",
+    description: "asd",
+    images: [
+      "https://cdn.shopify.com/s/files/1/0269/9243/products/Coronakolonyaerkektisort_1182x.jpg?v=1584172258"
+    ]
+
+  },
+  {
+    name: "Zaft",
+    price: "150",
+    description: "asdgdsf",
+    images: [
+"https://www.kaft.com/static/images/tee2/1000_1.jpg?cacheID=1634184805000"
+    ]
+  },
+]
 
 // const productCards = (products: Product[]) => {
 //   return products.map((product) => (
@@ -88,6 +180,10 @@ const Collections: React.FC = () => {
 
   const [price, setPrice] = React.useState<number[]>([0, 100]);
   const [productsList, setproductsList] = useState<Product[]>([]);
+  const [extendOwned, setExtendOwned] = React.useState(false);
+
+  const [minPrice, setMinPrice] = React.useState<number>(0);
+  const [maxPrice, setMaxPrice] = React.useState<number>(100);
 
   function handleChangeCheckbox(event: {
     target: { name: any; checked: any };
@@ -95,8 +191,20 @@ const Collections: React.FC = () => {
     setChecked({ ...checked, [event.target.name]: event.target.checked });
   }
 
-  const handleChangeSlider = (event: any, newValue: number | number[]) => {
-    setPrice(newValue as number[]);
+  const handleChangeMinPrice =
+    (prop: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      // setMinPrice(prop);
+      console.log(prop);
+    };
+
+  const handleChangeMaxPrice =
+    (prop: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setMaxPrice(prop);
+      console.log(maxPrice);
+    };
+
+  const handleExtendOwned = () => {
+    setExtendOwned(!extendOwned);
   };
 
   useEffect(() => {
@@ -120,47 +228,101 @@ const Collections: React.FC = () => {
     <CollectionsPageDiv>
       <SidebarDiv>
         <Filter>
-          <h6>Is Owned</h6>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={checked.owned}
-                onChange={handleChangeCheckbox}
-                name="owned"
-              />
-            }
-            label="Owned"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={checked.notOwned}
-                onChange={handleChangeCheckbox}
-                name="notOwned"
-              />
-            }
-            label="Not Owned"
-          />
+          <FilterTitle>Price</FilterTitle>
+          <FormControl fullWidth>
+            <InputLabel htmlFor="standard-adornment-amount"
+            style={{
+              fontSize: "10px",
+            }}>
+              Min
+            </InputLabel>
+            <Input
+              id="standard-adornment-min"
+              style={{
+                width: "50px",
+              }}
+              value={minPrice}
+              onChange={(val) => {
+                handleChangeMinPrice(val.target.value);
+              }}
+              startAdornment={
+                <InputAdornment position="start">₺</InputAdornment>
+              }
+            />
+          </FormControl>
+          <FormControl fullWidth>
+            <InputLabel htmlFor="standard-adornment-amount"
+            style={{
+              fontSize: "10px",
+            }}>
+              Max 
+            </InputLabel>
+            <Input
+              id="standard-adornment-max"
+              style={{
+                width: "50px",
+              }}
+              value={maxPrice}
+              onChange={handleChangeMaxPrice(maxPrice)}
+              startAdornment={
+                <InputAdornment position="start">₺</InputAdornment>
+              }
+            />
+          </FormControl>
         </Filter>
 
+        <Seperator />
+
         <Filter>
-          <h6>Price</h6>
-          <Slider
-            value={price}
-            onChange={handleChangeSlider}
-            valueLabelDisplay="auto"
-          />
+          <FilterTitle>
+            <span>Is Owned?</span>
+            <ExtendButton onClick={handleExtendOwned}>v</ExtendButton>
+          </FilterTitle>
+          {extendOwned ? (
+            <div>
+              <FormControlLabel
+                className="title"
+                control={
+                  <Checkbox
+                    checked={checked.owned}
+                    onChange={handleChangeCheckbox}
+                    name="owned"
+                  />
+                }
+                label="Owned"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={checked.notOwned}
+                    onChange={handleChangeCheckbox}
+                    name="notOwned"
+                  />
+                }
+                label="Not Owned"
+              />
+            </div>
+          ) : null}
         </Filter>
+
+        <Seperator />
       </SidebarDiv>
 
       <Content>
+        <FilterInfoBar>
+          <div style={{
+            padding : "5px",
+          }}>Price: 0 - 100</div>
+          {/* <div>ad</div> */}
+        </FilterInfoBar>
+
         <Table>
-          {/* {productsList.map((product) => (
-            // <Link to="/product" key={product.id}>
-            <ItemCard data={product} />
-            // </Link>
-          ))} */}
-          {/* <ItemCard data={productsList[0]} /> */}
+          <ItemCard data={productsss[0]}/>
+          <ItemCard data={productsss[1]}/>
+          <ItemCard data={productsss[2]}/>
+          <ItemCard data={productsss[3]}/>
+          <ItemCard data={productsss[4]}/>
+          <ItemCard data={productsss[5]}/>
         </Table>
       </Content>
     </CollectionsPageDiv>

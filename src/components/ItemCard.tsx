@@ -41,7 +41,7 @@ const ButtonGroup = styled.div`
   justify-content: center;
 `;
 
-const ItemCard: React.FC<{ data: Product }> = ({ data }) => {
+const ItemCard: React.FC<{ data: any }> = ({ data }) => {
   const [pickedImage, setPickedImage] = React.useState(data.images[0]);
 
   const backClickHandler = () => {
