@@ -37,6 +37,7 @@ import {
   WalletMultiButton,
 } from "@solana/wallet-adapter-react-ui";
 import { clusterApiUrl } from "@solana/web3.js";
+import { Button } from "react-bootstrap";
 
 // Default styles that can be overridden by your app
 require("@solana/wallet-adapter-react-ui/styles.css");
@@ -109,6 +110,9 @@ const App: React.FC = () => {
                       flexDirection: "row",
                     }}
                   >
+                    <Button>
+                      asdasdasd
+                    </Button>
                     <Link to={"/"} className="logo">
                       shibArmy
                     </Link>
