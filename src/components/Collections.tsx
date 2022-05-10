@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { ProductRepo } from "../modal/Product/Product.repository";
@@ -7,6 +7,7 @@ import ItemCard from "./ItemCard";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Slider from "@material-ui/core/Slider";
+import { listProduct } from "../services/Product/product.service";
 
 const CollectionsPageDiv = styled.div`
   display: flex;
@@ -71,17 +72,13 @@ const marks = [
   },
 ];
 
-const productRepostory = new ProductRepo();
-
-const products: Product[] = productRepostory.getProducts();
-
-function productCards() {
-  return products.map((product) => (
-    // <Link to="/product" key={product.id}>
-    <ItemCard data={product} />
-    // </Link>
-  ));
-}
+// const productCards = (products: Product[]) => {
+//   return products.map((product) => (
+//     // <Link to="/product" key={product.id}>
+//     <ItemCard data={product} />
+//     // </Link>
+//   ));
+// };
 
 const Collections: React.FC = () => {
   const [checked, setChecked] = React.useState({
@@ -90,6 +87,7 @@ const Collections: React.FC = () => {
   });
 
   const [price, setPrice] = React.useState<number[]>([0, 100]);
+  const [productsList, setproductsList] = useState<Product[]>([]);
 
   function handleChangeCheckbox(event: {
     target: { name: any; checked: any };
@@ -100,6 +98,23 @@ const Collections: React.FC = () => {
   const handleChangeSlider = (event: any, newValue: number | number[]) => {
     setPrice(newValue as number[]);
   };
+
+  useEffect(() => {
+    const input = {
+      limit: 10,
+      offset: 0,
+    };
+    const fetch = async () => {
+      const data = await listProduct(input);
+      setproductsList(data.data);
+      return data.data;
+    };
+    const res = fetch();
+  }, []);
+
+  useEffect(() => {
+    console.log(productsList);
+  }, [productsList]);
 
   return (
     <CollectionsPageDiv>
@@ -139,7 +154,14 @@ const Collections: React.FC = () => {
       </SidebarDiv>
 
       <Content>
-        <Table>{productCards()}</Table>
+        <Table>
+          {/* {productsList.map((product) => (
+            // <Link to="/product" key={product.id}>
+            <ItemCard data={product} />
+            // </Link>
+          ))} */}
+          {/* <ItemCard data={productsList[0]} /> */}
+        </Table>
       </Content>
     </CollectionsPageDiv>
   );

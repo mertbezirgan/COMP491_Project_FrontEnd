@@ -91,8 +91,6 @@ const App: React.FC = () => {
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-          <WalletMultiButton />
-          <WalletDisconnectButton />
           {/* Your app's components go here, nested within the context providers. */}
           <div>
             <nav className="navbar navbar-expand navbar-dark bg-dark">
@@ -207,6 +205,15 @@ const App: React.FC = () => {
                       <Link to={"/working"} className="nav-link">
                         FAQ
                       </Link>
+                    </li>
+                  </div>
+
+                  <div className="navbar-nav">
+                    <li className="nav-item rounded">
+                      <WalletMultiButton />
+                    </li>
+                    <li className="nav-item rounded">
+                      <WalletDisconnectButton />
                     </li>
                   </div>
 
