@@ -39,9 +39,54 @@ const Styles = styled.div`
   .imageDiv {
     display: flex;
   }
+  .descriptionDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  
+    align-items: center;
+  
+    border: 3px solid;
+    border-radius: 10px;
+  }
+  .customCard {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    gap: 55px;
+    padding: 55px;
+    width: 250px;
+    height: 250px;
+    background: #2e2e2e !important;
+  
+    img {
+      width: 170px;
+      height: 170px;
+      border-radius: 4px;
+    }
+  
+    > div {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    h5 {
+      color: #ffffff;
+    }
+  
+    h6 {
+      font-weight: 300;
+      color: #878787;
+  
+      overflow: hidden;
+      // text-overflow: ellipsis; gerek yok?
+      line-height: 1.5em;
+      max-height: 3em;
+    }
+  }
 `;
 
-console.log(myProduct);
 const ProductPage: React.FC = () => {
   return (
     <Styles>

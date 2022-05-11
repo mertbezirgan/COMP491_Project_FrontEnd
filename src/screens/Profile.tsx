@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getCurrentUser, getUserProfile } from "../services/auth.service";
 import IUser from "../types/user.type";
+import "../css/profile.css";
 
 const Profile: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -17,25 +18,27 @@ const Profile: React.FC = () => {
   }, []);
 
   return (
-    <div className="container">
-      {loading ? (
-        <div>Is Loading</div>
-      ) : (
-        <>
-          <header className="jumbotron">
-            <h3>
-              <strong>{user!.username}</strong> Profile
-            </h3>
-          </header>
-          <p></p>
-          <p>
-            <strong>Id:</strong> {user!.id}
-          </p>
-          <p>
-            <strong>Email:</strong> {user!.email}
-          </p>
-        </>
-      )}
+    <div id="profile">
+      <div className="container mt-4">
+        {loading ? (
+          <div>Is Loading</div>
+        ) : (
+          <>
+            <header className="jumbotron">
+              <h3>
+                <strong>{user!.username}</strong> Profile
+              </h3>
+            </header>
+            <p></p>
+            <p>
+              <strong>Id:</strong> {user!.id}
+            </p>
+            <p>
+              <strong>Email:</strong> {user!.email}
+            </p>
+          </>
+        )}
+      </div>
     </div>
   );
 };
