@@ -1,0 +1,19 @@
+
+#register {
+    min-height: calc(100vh - 70px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#register label {
+    font-size: 16px;
+}
+
+#register .card {
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border: none;
+}
+
+#register .register-card-container {
+}

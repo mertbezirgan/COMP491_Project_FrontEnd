@@ -14,9 +14,8 @@ export const register = async (
       password: password,
       name: username,
     });
-    // TODO token alınacak ve localstorage'a eklenecek
 
-    return data;
+    return data.data;
   } catch (error) {
     console.log(error);
     return null;
@@ -29,10 +28,6 @@ export const login = async (email: string, password: string) => {
       email,
       password,
     });
-    if (response.data.success) {
-      setStorageItem(storageKeys.logged, true);
-      setStorageItem(storageKeys.user, response.data.data);
-    }
 
     return response.data;
   } catch (error) {
