@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Button, Accordion, Form } from 'react-bootstrap';
 import { ProductRepo } from "../modal/Product.repository";
 import { Product } from "../modal/Product";
+import IProduct from "../types/product.type";
+import { getProduct } from "../services/Product/product.service";
 
 const productRepostory = new ProductRepo();
 
@@ -88,10 +90,29 @@ const Styles = styled.div`
 `;
 
 const ProductPage: React.FC = () => {
+  // TODO: IProduct interface tanımlanacak
+  const [product, setProduct] = useState<IProduct | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    // TODO get id from route params
+    getProduct(1).then((res) => {
+      console.log(res);
+
+      // TODO res doğru gelmiş mi, geldiyse setProduct yapıp product datası koyulacak
+      
+
+      setLoading(false);
+    });
+  }, [])
+
   return (
     <Styles>
       <div className="container">
-        <div className="pt-5 pb-5 pageMainDiv">
+        {loading ? (
+          <>Loading</>
+        ) : (
+          <div className="pt-5 pb-5 pageMainDiv">
           <div className="col-md-5 leftDiv">
             <div className="imageDiv">
               <img
@@ -163,6 +184,7 @@ const ProductPage: React.FC = () => {
             </Button>
           </div>
         </div>
+        )}
       </div>
     </Styles>
   );
