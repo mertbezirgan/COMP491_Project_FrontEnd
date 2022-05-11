@@ -217,7 +217,6 @@ const Styles = styled.div`
   }
 `;
 
-console.log(myProduct);
 const ProductPage: React.FC = () => {
   return (
     <Styles>

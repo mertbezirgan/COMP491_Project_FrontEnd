@@ -34,7 +34,10 @@ const Login: React.FC<Props> = ({ history }) => {
     password: Yup.string().required("This field is required!"),
   });
 
-  const handleLogin = async (formValue: { email: string; password: string }) => {
+  const handleLogin = async (formValue: {
+    email: string;
+    password: string;
+  }) => {
     const { email, password } = formValue;
 
     setMessage("");
@@ -99,10 +102,11 @@ const Login: React.FC<Props> = ({ history }) => {
                   disabled={loading}
                   style={{ display: "block", marginLeft: "auto" }}
                 >
-                  {loading && (
+                  {loading ? (
                     <span className="spinner-border spinner-border-sm"></span>
+                  ) : (
+                    <span>Login</span>
                   )}
-                  <span>Login</span>
                 </Button>
               </div>
 
