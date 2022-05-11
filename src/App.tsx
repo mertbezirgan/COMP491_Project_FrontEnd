@@ -2,7 +2,6 @@ import React, { useMemo } from "react";
 import { useState, useEffect } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
 
 import * as AuthService from "./services/auth.service";
 import IUser from "./types/user.type";
@@ -40,6 +39,7 @@ import { clusterApiUrl } from "@solana/web3.js";
 import { Button } from "react-bootstrap";
 import Header from "./components/Header";
 import { getStorageItem, storageKeys } from "./services/storage.service";
+import Footer from "./components/Footer";
 
 // Default styles that can be overridden by your app
 require("@solana/wallet-adapter-react-ui/styles.css");
@@ -99,6 +99,7 @@ const App: React.FC = () => {
               </Switch>
             </div>
           </div>
+          <Footer />
         </WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>

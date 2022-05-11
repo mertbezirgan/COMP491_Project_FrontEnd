@@ -17,8 +17,10 @@ const Header: React.FC<HeaderProps> = ({ currentUser, logout }) => {
           <Nav className="me-auto">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/collections">Collections</Nav.Link>
-            <Nav.Link href="/team">Team</Nav.Link>
-            <Nav.Link href="/faq">FAQ</Nav.Link>
+            <Nav.Link href="#features">Features</Nav.Link>
+            <Nav.Link href="#about">About</Nav.Link>
+            <Nav.Link href="#team">Team</Nav.Link>
+            <Nav.Link href="#faq">FAQ</Nav.Link>
           </Nav>
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">
