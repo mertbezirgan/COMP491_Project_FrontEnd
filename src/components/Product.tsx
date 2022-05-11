@@ -56,7 +56,7 @@ const ProductPage: React.FC = () => {
             </div>
             <div className="col-md-12">
               <Accordion defaultActiveKey={['0']} alwaysOpen>
-                <Accordion.Item eventKey="2" className="descriptionDiv">
+                <Accordion.Item eventKey="2">
                   <Accordion.Header>Description</Accordion.Header>
                   <Accordion.Body>
                     Created by <span className="text-primary">{myProduct.created_by}</span>
