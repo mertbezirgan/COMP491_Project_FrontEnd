@@ -1,7 +1,8 @@
 
 export const storageKeys = {
     user: "user",
-    token: "token"
+    token: "token",
+    logged: "logged"
 };
 
 export const getStorageItem = (key: string) => {
