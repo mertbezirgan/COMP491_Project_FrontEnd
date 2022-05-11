@@ -41,15 +41,14 @@ import Header from "./components/Header";
 import { getStorageItem, storageKeys } from "./services/storage.service";
 import Footer from "./components/Footer";
 import Profile from "./screens/Profile";
+import { useLocalStorage } from 'usehooks-ts'
 
 // Default styles that can be overridden by your app
 require("@solana/wallet-adapter-react-ui/styles.css");
 
 
 const App: React.FC = () => {
-  const [currentUser, setCurrentUser] = useState<IUser | null>(
-    getStorageItem(storageKeys.user)
-  );
+  const [currentUser, setCurrentUser] = useLocalStorage(storageKeys.user, null);
 
   // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
   const network = WalletAdapterNetwork.Devnet;
@@ -71,9 +70,6 @@ const App: React.FC = () => {
     [network]
   );
 
-  // useEffect(() => {
-  //   setCurrentUser(getStorageItem(storageKeys.user));
-  // }, [getStorageItem(storageKeys.user)]);
 
   const logout = () => {
     localStorage.clear();
@@ -87,7 +83,7 @@ const App: React.FC = () => {
         <WalletModalProvider>
           {/* <WalletMultiButton />
           <WalletDisconnectButton /> */}
-          <Header currentUser={currentUser} logout={logout} />
+          <Header logout={logout} />
           <div>
             <div>
               <Switch>

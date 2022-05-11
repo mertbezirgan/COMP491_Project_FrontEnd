@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { useLocalStorage } from "usehooks-ts";
+import { storageKeys } from "../services/storage.service";
 import IUser from "../types/user.type";
 
 interface HeaderProps {
-  currentUser: IUser | null;
   logout: () => void
 }
 
-const Header: React.FC<HeaderProps> = ({ currentUser, logout }) => {
+const Header: React.FC<HeaderProps> = ({ logout }) => {
+  const [currentUser, setCurrentUser] = useLocalStorage(storageKeys.user, null);
+  const [logged, setLogged] = useLocalStorage(storageKeys.logged, false);
+
   return (
     <Navbar bg="light" expand="lg" sticky="top">
       <Container>
@@ -25,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser, logout }) => {
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">
           <Nav>
-            {currentUser ? (
+            {logged ? (
               <Nav.Link>
                 <Button onClick={logout}>Logout</Button>
               </Nav.Link>

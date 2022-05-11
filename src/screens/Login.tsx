@@ -6,6 +6,8 @@ import { login } from "../services/auth.service";
 import { Link, RouteComponentProps } from "react-router-dom";
 import "../css/login.css";
 import { Button } from "react-bootstrap";
+import { useLocalStorage } from "usehooks-ts";
+import { storageKeys } from "../services/storage.service";
 
 interface RouterProps {
   history: string;
@@ -16,6 +18,8 @@ type Props = RouteComponentProps<RouterProps>;
 const Login: React.FC<Props> = ({ history }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
+  const [, setCurrentUser] = useLocalStorage(storageKeys.user, null);
+  const [, setLogged] = useLocalStorage(storageKeys.logged, false);
 
   const initialValues: {
     email: string;
@@ -42,6 +46,8 @@ const Login: React.FC<Props> = ({ history }) => {
     if (!res || !res.success) {
       setMessage("Please enter a valid email and password");
     } else {
+      setCurrentUser(res.data);
+      setLogged(true);
       history.push("/profile");
     }
   };
