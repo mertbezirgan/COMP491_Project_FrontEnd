@@ -11,7 +11,7 @@ import Home from "./screens/Home";
 import EventBus from "./common/EventBus";
 import Working from "./components/Working";
 import Collections from "./components/Collections";
-import ProductPage from "./components/Product";
+import ProductPage from "./screens/Product";
 
 import {
   ConnectionProvider,
@@ -92,7 +92,7 @@ const App: React.FC = () => {
                 <Route exact path="/signup" component={Register} />
                 <Route exact path="/working" component={Working} />
                 <Route exact path="/collections" component={Collections} />
-                <Route exact path="/product" component={ProductPage} />
+                <Route exact path="/product/:id" component={ProductPage} />
                 <Route exact path="/profile" component={Profile} />
                 {/* <Route path="/user" component={BoardUser} />
           <Route path="/mod" component={BoardModerator} />
