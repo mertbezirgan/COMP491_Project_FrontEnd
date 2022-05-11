@@ -18,41 +18,32 @@ const Login: React.FC<Props> = ({ history }) => {
   const [message, setMessage] = useState<string>("");
 
   const initialValues: {
-    username: string;
+    email: string;
     password: string;
   } = {
-    username: "",
+    email: "",
     password: "",
   };
 
   const validationSchema = Yup.object().shape({
-    username: Yup.string().required("This field is required!"),
+    email: Yup.string().required("This field is required!"),
     password: Yup.string().required("This field is required!"),
   });
 
-  const handleLogin = (formValue: { username: string; password: string }) => {
-    const { username, password } = formValue;
+  const handleLogin = async (formValue: { email: string; password: string }) => {
+    const { email, password } = formValue;
 
     setMessage("");
     setLoading(true);
 
-    login(username, password).then(
-      () => {
-        history.push("/profile");
-        window.location.reload();
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-
-        setLoading(false);
-        setMessage(resMessage);
-      }
-    );
+    let res = await login(email, password);
+    console.log(res);
+    setLoading(false);
+    if (!res || !res.success) {
+      setMessage("Please enter a valid email and password");
+    } else {
+      history.push("/profile");
+    }
   };
 
   return (
@@ -69,12 +60,12 @@ const Login: React.FC<Props> = ({ history }) => {
                 <h3>Login To Your Account</h3>
               </div>
               <div className="form-group">
-                <label className="mt-4 mb-2" htmlFor="username">
-                  Username
+                <label className="mt-4 mb-2" htmlFor="email">
+                  Email
                 </label>
-                <Field name="username" type="text" className="form-control" />
+                <Field name="email" type="text" className="form-control" />
                 <ErrorMessage
-                  name="username"
+                  name="email"
                   component="div"
                   className="alert alert-danger"
                 />
