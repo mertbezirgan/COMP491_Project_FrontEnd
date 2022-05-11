@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import * as AuthService from "./services/auth.service";
 import IUser from "./types/user.type";
-import Login from "./components/Login";
+import Login from "./screens/Login";
 import Register from "./components/Register";
 import Home from "./screens/Home";
 import EventBus from "./common/EventBus";
