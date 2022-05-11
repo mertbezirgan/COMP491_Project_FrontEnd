@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Button from 'react-bootstrap/Button';
+import { Button, Accordion, Form } from 'react-bootstrap';
 import { ProductRepo } from "../modal/Product.repository";
 import { Product } from "../modal/Product";
 
@@ -90,8 +90,8 @@ const Styles = styled.div`
 const ProductPage: React.FC = () => {
   return (
     <Styles>
-    <div className="container">
-        <div className="pt-5 pageMainDiv">
+      <div className="container">
+        <div className="pt-5 pb-5 pageMainDiv">
           <div className="col-md-5 leftDiv">
             <div className="imageDiv">
               <img
@@ -99,26 +99,37 @@ const ProductPage: React.FC = () => {
                 className="col-md-12"
               ></img>
             </div>
-            <div className="descriptionDiv">
-              <h5>Created by {myProduct.created_by}</h5>
-              <h6>{myProduct.description}</h6>
+            <div className="col-md-12">
+              <Accordion defaultActiveKey={['0']} alwaysOpen>
+                <Accordion.Item eventKey="2" className="descriptionDiv">
+                  <Accordion.Header>Description</Accordion.Header>
+                  <Accordion.Body>
+                    Created by <span className="text-primary">{myProduct.created_by}</span>
+                    <br />
+                    {myProduct.description}
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="1">
+                  <Accordion.Header>Details</Accordion.Header>
+                  <Accordion.Body>
+                    ????
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
             </div>
           </div>
           <div className="col-md-7 rightDiv">
             <div>
-              <h1>{myProduct.artist}</h1>
+              <h1 className="fs-5 text-primary">{myProduct.artist}</h1>
             </div>
             <div>
-              <h2
+              <h2 className="fs-1"
                 style={{
                   fontWeight: "bold",
                 }}
               >
                 {myProduct.name}
               </h2>
-            </div>
-            <div>
-              <h3>{myProduct.description}</h3>
             </div>
             <div
               style={{
@@ -128,21 +139,15 @@ const ProductPage: React.FC = () => {
             >
               <h5>{myProduct.price}₺</h5>
             </div>
-            {/*<div
-                style={{
-                  textAlign: "center",
-                  margin: "10px",
-                }}
-              >
-                <Select
-                  defaultValue={colourOptions[0]}
-                  isClearable
-                  components={{ Control: ControlComponent }}
-                  isSearchable
-                  name="color"
-                  options={colourOptions}
-                />
-              </div>*/}
+            <div className="col-md-5">
+              <Form.Select>
+                <option value="xs">XS</option>
+                <option value="s">S</option>
+                <option value="m">M</option>
+                <option value="l">L</option>
+                <option value="xl">XL</option>
+              </Form.Select>
+            </div>
             <Button
               style={{
                 minWidth: "auto",
