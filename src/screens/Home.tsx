@@ -1,4 +1,5 @@
 import React from "react";
+import { Accordion } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Home: React.FC = () => {
@@ -42,25 +43,25 @@ const Home: React.FC = () => {
   };
   const teamData = [
     {
-      "img": "img/team/01.jpg",
-      "name": "John Doe",
-      "job": "Director"
+      img: "img/team/01.jpg",
+      name: "John Doe",
+      job: "Director",
     },
     {
-      "img": "img/team/02.jpg",
-      "name": "Mike Doe",
-      "job": "Senior Designer"
+      img: "img/team/02.jpg",
+      name: "Mike Doe",
+      job: "Senior Designer",
     },
     {
-      "img": "img/team/03.jpg",
-      "name": "Jane Doe",
-      "job": "Senior Designer"
+      img: "img/team/03.jpg",
+      name: "Jane Doe",
+      job: "Senior Designer",
     },
     {
-      "img": "img/team/04.jpg",
-      "name": "Karen Doe",
-      "job": "Project Manager"
-    }
+      img: "img/team/04.jpg",
+      name: "Karen Doe",
+      job: "Project Manager",
+    },
   ];
 
   return (
@@ -69,7 +70,7 @@ const Home: React.FC = () => {
         <div className="intro">
           <div className="overlay">
             <div className="container">
-              <div className="row justify-content-center">
+              <div className="row justify-content-center align-items-center">
                 <div className="col-md-8 col-md-offset-2 intro-text">
                   <h1>
                     ShibArmy NFT Marketplace
@@ -156,7 +157,7 @@ const Home: React.FC = () => {
               dapibus leonec.
             </p>
           </div>
-          <div id="row">
+          <div className="row">
             {teamData
               ? teamData.map((d, i) => (
                   <div
@@ -175,6 +176,39 @@ const Home: React.FC = () => {
                 ))
               : "loading"}
           </div>
+        </div>
+      </div>
+      <div id="faq">
+        <div className="container">
+          <div className="col-md-offset-1 section-title text-center">
+            <h2>FAQ</h2>
+          </div>
+          <Accordion>
+            <Accordion.Item eventKey="0">
+              <Accordion.Header>Question Item #1</Accordion.Header>
+              <Accordion.Body>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey="1">
+              <Accordion.Header>Question Item #2</Accordion.Header>
+              <Accordion.Body>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
         </div>
       </div>
     </div>

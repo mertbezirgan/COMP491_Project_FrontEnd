@@ -2,11 +2,10 @@ import React, { useMemo } from "react";
 import { useState, useEffect } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
 
 import * as AuthService from "./services/auth.service";
 import IUser from "./types/user.type";
-import Login from "./components/Login";
+import Login from "./screens/Login";
 import Register from "./components/Register";
 import Home from "./screens/Home";
 import EventBus from "./common/EventBus";
@@ -40,9 +39,12 @@ import { clusterApiUrl } from "@solana/web3.js";
 import { Button } from "react-bootstrap";
 import Header from "./components/Header";
 import { getStorageItem, storageKeys } from "./services/storage.service";
+import Footer from "./components/Footer";
+import Profile from "./screens/Profile";
 
 // Default styles that can be overridden by your app
 require("@solana/wallet-adapter-react-ui/styles.css");
+
 
 const App: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<IUser | null>(
@@ -69,11 +71,14 @@ const App: React.FC = () => {
     [network]
   );
 
-  useEffect(() => {}, []);
+  // useEffect(() => {
+  //   setCurrentUser(getStorageItem(storageKeys.user));
+  // }, [getStorageItem(storageKeys.user)]);
 
   const logout = () => {
     localStorage.clear();
     setCurrentUser(null);
+    window.location.pathname = "/";
   };
 
   return (
@@ -92,13 +97,14 @@ const App: React.FC = () => {
                 <Route exact path="/working" component={Working} />
                 <Route exact path="/collections" component={Collections} />
                 <Route exact path="/product" component={ProductPage} />
-                {/* <Route exact path="/profile" component={Profile} /> */}
+                <Route exact path="/profile" component={Profile} />
                 {/* <Route path="/user" component={BoardUser} />
           <Route path="/mod" component={BoardModerator} />
           <Route path="/admin" component={BoardAdmin} /> */}
               </Switch>
             </div>
           </div>
+          <Footer />
         </WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
