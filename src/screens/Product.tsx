@@ -5,6 +5,7 @@ import { ProductRepo } from "../modal/Product.repository";
 import { Product } from "../modal/Product";
 import IProduct from "../types/product.type";
 import { getProduct } from "../services/Product/product.service";
+import { useParams } from "react-router-dom";
 
 const productRepostory = new ProductRepo();
 
@@ -90,13 +91,13 @@ const Styles = styled.div`
 `;
 
 const ProductPage: React.FC = () => {
-  // TODO: IProduct interface tanımlanacak
+  let { id } = useParams();
   const [product, setProduct] = useState<IProduct | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     // TODO get id from route params
-    getProduct(1).then((res) => {
+    getProduct(id).then((res) => {
       console.log(res);
 
       // TODO res doğru gelmiş mi, geldiyse setProduct yapıp product datası koyulacak
