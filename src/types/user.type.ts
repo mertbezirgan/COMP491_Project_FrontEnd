@@ -2,7 +2,7 @@ import IOrder from "./order.type"
 
 export default interface IUser {
   id?: any | null,
-  username: string,
+  name: string,
   email: string,
   password: string,
   roles?: Array<string>
