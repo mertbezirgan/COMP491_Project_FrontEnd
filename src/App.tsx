@@ -2,17 +2,16 @@ import React, { useMemo } from "react";
 import { useState, useEffect } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
 
 import * as AuthService from "./services/auth.service";
 import IUser from "./types/user.type";
-import Login from "./components/Login";
-import Register from "./components/Register";
+import Login from "./screens/Login";
+import Register from "./screens/Register";
 import Home from "./screens/Home";
 import EventBus from "./common/EventBus";
 import Working from "./components/Working";
 import Collections from "./components/Collections";
-import ProductPage from "./components/Product";
+import ProductPage from "./screens/Product";
 
 import {
   ConnectionProvider,
@@ -40,14 +39,16 @@ import { clusterApiUrl } from "@solana/web3.js";
 import { Button } from "react-bootstrap";
 import Header from "./components/Header";
 import { getStorageItem, storageKeys } from "./services/storage.service";
+import Footer from "./components/Footer";
+import Profile from "./screens/Profile";
+import { useLocalStorage } from 'usehooks-ts'
 
 // Default styles that can be overridden by your app
 require("@solana/wallet-adapter-react-ui/styles.css");
 
+
 const App: React.FC = () => {
-  const [currentUser, setCurrentUser] = useState<IUser | null>(
-    getStorageItem(storageKeys.user)
-  );
+  const [currentUser, setCurrentUser] = useLocalStorage(storageKeys.user, null);
 
   // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
   const network = WalletAdapterNetwork.Devnet;
@@ -69,18 +70,20 @@ const App: React.FC = () => {
     [network]
   );
 
-  useEffect(() => {}, []);
 
   const logout = () => {
     localStorage.clear();
     setCurrentUser(null);
+    window.location.pathname = "/";
   };
 
   return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-          <Header currentUser={currentUser} logout={logout} />
+          {/* <WalletMultiButton />
+          <WalletDisconnectButton /> */}
+          <Header logout={logout} />
           <div>
             <div>
               <Switch>
@@ -89,14 +92,15 @@ const App: React.FC = () => {
                 <Route exact path="/signup" component={Register} />
                 <Route exact path="/working" component={Working} />
                 <Route exact path="/collections" component={Collections} />
-                <Route exact path="/product" component={ProductPage} />
-                {/* <Route exact path="/profile" component={Profile} /> */}
+                <Route exact path="/product/:id" component={ProductPage} />
+                <Route exact path="/profile" component={Profile} />
                 {/* <Route path="/user" component={BoardUser} />
           <Route path="/mod" component={BoardModerator} />
           <Route path="/admin" component={BoardAdmin} /> */}
               </Switch>
             </div>
           </div>
+          <Footer />
         </WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>

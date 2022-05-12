@@ -1,5 +1,7 @@
 import axios from "axios";
 import { authRoutes } from "../constants/routes";
+import IUser from "../types/user.type";
+import { setStorageItem, storageKeys } from "./storage.service";
 
 export const register = async (
   username: string,
@@ -12,30 +14,38 @@ export const register = async (
       password: password,
       name: username,
     });
-    // TODO token alınacak ve localstorage'a eklenecek
 
-    return data;
+    return data.data;
   } catch (error) {
     console.log(error);
     return null;
   }
 };
 
-export const login = (username: string, password: string) => {
-  // TODO token alınacak ve localstorage'a eklenecek
-
-  return axios
-    .post(authRoutes.login, {
-      username,
+export const login = async (email: string, password: string) => {
+  try {
+    const response = await axios.post(authRoutes.login, {
+      email,
       password,
-    })
-    .then((response) => {
-      if (response.data.accessToken) {
-        localStorage.setItem("user", JSON.stringify(response.data));
-      }
-
-      return response.data;
     });
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+export const getUserProfile = async (): Promise<IUser | null> => {
+  try {
+    const response = await axios.get(authRoutes.me);
+    if (!response.data.success) return null;
+
+    return response.data.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 };
 
 export const logout = () => {

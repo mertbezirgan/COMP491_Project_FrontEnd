@@ -6,4 +6,16 @@ const listProduct = async (input: any) => {
   return axios.post(productRoutes.list, input);
 };
 
-export { listProduct };
+const getProduct = async (productId: number) => {
+  try {
+    let data = await axios.get(productRoutes.create + `/${productId}`);
+    if (!data || !data.data.success) return null;
+
+    return data.data.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+export { listProduct, getProduct };
