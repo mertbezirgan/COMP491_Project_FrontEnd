@@ -1,4 +1,5 @@
 import IProductImage from "./productImage.type";
+import IToken from "./token.type";
 
 export default interface IProduct {
   id: number;
@@ -10,4 +11,5 @@ export default interface IProduct {
   once_sold: boolean;
   token_id: number;
   productImages: IProductImage[];
+  token: IToken;
 }

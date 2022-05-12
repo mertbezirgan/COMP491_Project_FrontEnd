@@ -1,17 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Button, Accordion, Form } from 'react-bootstrap';
-import { ProductRepo } from "../modal/Product.repository";
-import { Product } from "../modal/Product";
 import IProduct from "../types/product.type";
 import { getProduct } from "../services/Product/product.service";
 import { useParams } from "react-router-dom";
-
-const productRepostory = new ProductRepo();
-
-const products: Product[] = productRepostory.getProducts();
-
-const myProduct: Product = products[0];
 
 
 const Styles = styled.div`
@@ -91,19 +83,18 @@ const Styles = styled.div`
 `;
 
 const ProductPage: React.FC = () => {
-  let { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<IProduct | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     // TODO get id from route params
-    getProduct(id).then((res) => {
+    getProduct(Number(id)).then((res) => {
       console.log(res);
-
-      // TODO res doğru gelmiş mi, geldiyse setProduct yapıp product datası koyulacak
-      
-
-      setLoading(false);
+      if (res) {
+        setProduct(res);
+        setLoading(false);
+      }
     });
   }, [])
 
@@ -117,7 +108,7 @@ const ProductPage: React.FC = () => {
           <div className="col-md-5 leftDiv">
             <div className="imageDiv">
               <img
-                src={myProduct.image}
+                src={product?.token.image_url}
                 className="col-md-12"
               ></img>
             </div>
@@ -126,9 +117,9 @@ const ProductPage: React.FC = () => {
                 <Accordion.Item eventKey="2">
                   <Accordion.Header>Description</Accordion.Header>
                   <Accordion.Body>
-                    Created by <span className="text-primary">{myProduct.created_by}</span>
+                    Created by <span className="text-primary">Eko</span>
                     <br />
-                    {myProduct.description}
+                    {product?.description}
                   </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey="1">
@@ -142,7 +133,7 @@ const ProductPage: React.FC = () => {
           </div>
           <div className="col-md-7 rightDiv">
             <div>
-              <h1 className="fs-5 text-primary">{myProduct.artist}</h1>
+              <h1 className="fs-5 text-primary">{product?.name}</h1>
             </div>
             <div>
               <h2 className="fs-1"
@@ -150,7 +141,7 @@ const ProductPage: React.FC = () => {
                   fontWeight: "bold",
                 }}
               >
-                {myProduct.name}
+                {product?.name}
               </h2>
             </div>
             <div
@@ -159,7 +150,7 @@ const ProductPage: React.FC = () => {
                 margin: "10px",
               }}
             >
-              <h5>{myProduct.price}₺</h5>
+              <h5>{product?.bundle_price}$</h5>
             </div>
             <div className="col-md-5">
               <Form.Select>
