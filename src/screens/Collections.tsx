@@ -13,6 +13,10 @@ import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
 import IProduct from "../types/product.type";
 import { Link } from "react-router-dom";
+import { Col, Form, Row } from "react-bootstrap";
+import { IconButton } from "@material-ui/core";
+
+// import RangeSlider from 'react-bootstrap-range-slider';
 
 const CollectionsPageDiv = styled.div`
   display: flex;
@@ -111,8 +115,12 @@ const FilterInfoBar = styled.div`
   }
 `;
 
+// const Slider = styled.div`
+//   width:
+// `;
+
 const Collections: React.FC = () => {
-  const [productsList, setproductsList] = useState<IProduct[]>([]);
+  const [productsList, setProductList] = useState<IProduct[]>([]);
 
   const [extendOwned, setExtendOwned] = React.useState(false);
 
@@ -121,7 +129,7 @@ const Collections: React.FC = () => {
     notOwned: false,
   });
   const [minPrice, setMinPrice] = React.useState<number>(0);
-  const [maxPrice, setMaxPrice] = React.useState<number>(100);
+  const [maxPrice, setMaxPrice] = React.useState<number>(500);
 
   function handleChangeCheckbox(event: {
     target: { name: any; checked: any };
@@ -130,39 +138,11 @@ const Collections: React.FC = () => {
     console.log(checked.notOwned);
   }
 
-  const handleChangeMinPrice =
-    (prop: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      setMinPrice(prop);
-
-      const input = {
-        minPrice: prop,
-        maxPrice: maxPrice,
-        limit: 10,
-        offset: 0,
-      };
-
-      const fetch = async () => {
-        const data = await listProduct(input);
-
-        setproductsList(data.data.data);
-        console.log(data.data.data);
-        return data.data;
-      };
-      const res = fetch();
-
-      console.log(prop);
-    };
-
-  const handleChangeMaxPrice =
-    (prop: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      setMaxPrice(prop);
-      console.log(maxPrice);
-    };
-
   const handleExtendOwned = () => {
     setExtendOwned(!extendOwned);
   };
 
+  //Initial product list
   useEffect(() => {
     const input = {
       limit: 10,
@@ -171,17 +151,79 @@ const Collections: React.FC = () => {
     const fetch = async () => {
       const data = await listProduct(input);
 
-      setproductsList(data.data.data);
+      setProductList(data.data.data);
       console.log(data.data.data);
       return data.data;
     };
     const res = fetch();
   }, []);
 
+  //Min-price-filtered product list
+  useEffect(() => {
+    const input = {
+      minPrice: minPrice,
+      limit: 10,
+      offset: 0,
+    };
+
+    const fetch = async () => {
+      const data = await listProduct(input);
+
+      setProductList(data.data.data);
+      console.log(data.data.data);
+      return data.data;
+    };
+    const res = fetch();
+  }, [minPrice]);
+
+  //Max-price-filtered product list
+  useEffect(() => {
+    const input = {
+      maxPrice: maxPrice,
+      limit: 10,
+      offset: 0,
+    };
+
+    const fetch = async () => {
+      const data = await listProduct(input);
+
+      setProductList(data.data.data);
+      console.log(data.data.data);
+      return data.data;
+    };
+    const res = fetch();
+  }, [maxPrice]);
+
+
+  //               ????? @@@@@@@@@@@@@ ?????
+
+  // //Once-sold-filtered product list
   // useEffect(() => {
+  //   if (checked.notOwned !== checked.owned) {
+  //     var bool = false;
 
-  // }, [productsList]);
+  //     if (checked.notOwned) {
+  //       bool = true;
+  //     }
+  //   }
 
+  //   const input = {
+  //     limit: 10,
+  //     offset: 0,
+  //     notOwned: bool,
+  //   };
+
+  //   const fetch = async () => {
+  //     const data = await listProduct(input);
+
+  //     setProductList(data.data.data);
+  //     console.log(data.data.data);
+  //     return data.data;
+  //   };
+  //   const res = fetch();
+  // }, [checked]);
+
+  //Creating product list after fetching data
   const productsCards = productsList.map((product) => {
     return (
       <Link to={`product/${product.id}`} key={product.id}>
@@ -190,67 +232,60 @@ const Collections: React.FC = () => {
     );
   });
 
+  // console.log(minPrice, maxPrice);
+
   return (
     <CollectionsPageDiv>
       <SidebarDiv>
         <Filter>
           <FilterTitle>Price</FilterTitle>
-          {/* <FormControl fullWidth>
-            <InputLabel
-              htmlFor="standard-adornment-amount"
+
+          <label className="mt-2 form-label">Min Price</label>
+          <span>
+            <input
+              type="range"
               style={{
-                fontSize: "10px",
-              }}
-            >
-              Min
-            </InputLabel>
-            <Input
-              id="standard-adornment-min"
-              style={{
-                width: "50px",
+                width: "70%",
+                verticalAlign: "middle",
               }}
               value={minPrice}
-              // onKeyPress={
-              //   (e) => {console.log(e.target)}
-              // }
-              // onChange={(e) => handleChangeMinPrice(e.target.value)}
-              startAdornment={
-                <InputAdornment position="start">₺</InputAdornment>
-              }
+              onChange={(e) => setMinPrice(parseInt(e.target.value))}
+              className="form-range"
+              min="0"
+              max={maxPrice}
+              step="10"
             />
-          </FormControl>
-          <FormControl fullWidth>
-            <InputLabel
-              htmlFor="standard-adornment-amount"
+            <span
               style={{
-                fontSize: "10px",
+                marginLeft: "10px",
               }}
             >
-              Max
-            </InputLabel>
-            <Input
-              id="standard-adornment-max"
+              {minPrice}
+            </span>
+          </span>
+
+          <label className="mt-2 form-label">Max Price</label>
+          <span>
+            <input
+              type="range"
               style={{
-                width: "50px",
+                width: "70%",
               }}
               value={maxPrice}
-              onChange={handleChangeMaxPrice(maxPrice)}
-              startAdornment={
-                <InputAdornment position="start">₺</InputAdornment>
-              }
+              onChange={(e) => setMaxPrice(parseInt(e.target.value))}
+              className="form-range"
+              min={minPrice}
+              max="500"
+              step="10"
             />
-          </FormControl> */}
-
-          <label htmlFor="customRange2" className="form-label">
-            Max Price
-          </label>
-          <input
-            type="range"
-            className="form-range"
-            min="0"
-            max="5"
-            id="customRange2"
-          ></input>
+            <span
+              style={{
+                marginLeft: "10px",
+              }}
+            >
+              {maxPrice}
+            </span>
+          </span>
         </Filter>
 
         <Seperator />
@@ -258,6 +293,9 @@ const Collections: React.FC = () => {
         <Filter>
           <FilterTitle>
             <span>Is Owned?</span>
+
+            {/* TODO */}
+
             <ExtendButton onClick={handleExtendOwned}>v</ExtendButton>
           </FilterTitle>
           {extendOwned ? (
@@ -291,7 +329,7 @@ const Collections: React.FC = () => {
       </SidebarDiv>
 
       <Content>
-        <FilterInfoBar>
+        {/* <FilterInfoBar>
           <div
             style={{
               padding: "5px",
@@ -299,7 +337,7 @@ const Collections: React.FC = () => {
           >
             Price: 0 - 100
           </div>
-        </FilterInfoBar>
+        </FilterInfoBar> */}
 
         <Table>{productsCards}</Table>
 
