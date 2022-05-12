@@ -80,8 +80,6 @@ const App: React.FC = () => {
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-          {/* <WalletMultiButton />
-          <WalletDisconnectButton /> */}
           <Header currentUser={currentUser} logout={logout} />
           <div>
             <div>
