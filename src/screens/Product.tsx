@@ -86,6 +86,8 @@ const ProductPage: React.FC = () => {
   const [product, setProduct] = useState<IProduct | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
+  console.log(product);
+
   useEffect(() => {
     // TODO get id from route params
     getProduct(Number(id)).then((res) => {

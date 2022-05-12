@@ -11,6 +11,8 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
+import IProduct from "../types/product.type";
+import { Link } from "react-router-dom";
 
 const CollectionsPageDiv = styled.div`
   display: flex;
@@ -96,7 +98,7 @@ const FilterInfoBar = styled.div`
   font-size: 12px;
   border-radius: 10px;
   background-color: #87c3e1;
-  
+
   div {
     display: flex;
     flex-direction: row;
@@ -109,66 +111,11 @@ const FilterInfoBar = styled.div`
   }
 `;
 
-const productsss = [
-  {
-    name: "Gray summer hoodie",
-    price: "200",
-    description: "Good for hot summer days",
-    images: [
-      "https://cdn.dsmcdn.com/ty47/product/media/images/20210107/11/48098883/109495684/1/1_org_zoom.jpg"
-    ]
-  },
-  {
-    name: "Black t-shirt",
-    price: "123",
-    description: "asdgdsf",
-    images: [
-      "https://productimages.hepsiburada.net/l/20/600-800/9868106498098.jpg"
-    ]
-  },
-  {
-    name: "Cactus",
-    price: "40",
-    description: "asdgdsf",
-    images: [
-"https://productimages.hepsiburada.net/l/37/600-800/10544243933234.jpg"
-    ]
-
-  },
-  {
-    name: "Skull T",
-    price: "120",
-    description: "asdgdsf",
-    images: [
-      "https://cdn-merchant.ganipara.com/assets/5603/product/329597/venti_bodrum-skull-tasarim-baskili-tisort-erkek-tisort-baski-1586024832.jpg"
-    ]
-
-  },
-  {
-    name: "White t-shirt",
-    price: "50",
-    description: "asd",
-    images: [
-      "https://cdn.shopify.com/s/files/1/0269/9243/products/Coronakolonyaerkektisort_1182x.jpg?v=1584172258"
-    ]
-
-  },
-  {
-    name: "Zaft",
-    price: "150",
-    description: "asdgdsf",
-    images: [
-"https://www.kaft.com/static/images/tee2/1000_1.jpg?cacheID=1634184805000"
-    ]
-  },
-]
-
 const Collections: React.FC = () => {
-  
-  const [productsList, setproductsList] = useState<Product[]>([]);
-  
+  const [productsList, setproductsList] = useState<IProduct[]>([]);
+
   const [extendOwned, setExtendOwned] = React.useState(false);
-  
+
   const [checked, setChecked] = React.useState({
     owned: false,
     notOwned: false,
@@ -186,6 +133,23 @@ const Collections: React.FC = () => {
   const handleChangeMinPrice =
     (prop: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
       setMinPrice(prop);
+
+      const input = {
+        minPrice: prop,
+        maxPrice: maxPrice,
+        limit: 10,
+        offset: 0,
+      };
+
+      const fetch = async () => {
+        const data = await listProduct(input);
+
+        setproductsList(data.data.data);
+        console.log(data.data.data);
+        return data.data;
+      };
+      const res = fetch();
+
       console.log(prop);
     };
 
@@ -208,40 +172,36 @@ const Collections: React.FC = () => {
       const data = await listProduct(input);
 
       setproductsList(data.data.data);
-      
+      console.log(data.data.data);
       return data.data;
     };
     const res = fetch();
   }, []);
 
-  useEffect(() => {
-    console.log(productsList);
-    // console.log(productsList[0]);
+  // useEffect(() => {
 
-  }, [productsList]);
+  // }, [productsList]);
 
-  const productsCards = productsList.map(product => {
-    console.log(product);
-    return <ItemCard data={product} key={product.id} />;
+  const productsCards = productsList.map((product) => {
+    return (
+      <Link to={`product/${product.id}`} key={product.id}>
+        <ItemCard data={product} />
+      </Link>
+    );
   });
-  
-  // function getProductCards() {
-  //   if (productsList.length > 0) {
-  //     console.log(productsList[0]);
-  //       return <ItemCard data={productsList[0]}/>;
-  //   }
-  // };
 
   return (
     <CollectionsPageDiv>
       <SidebarDiv>
         <Filter>
           <FilterTitle>Price</FilterTitle>
-          <FormControl fullWidth>
-            <InputLabel htmlFor="standard-adornment-amount"
-            style={{
-              fontSize: "10px",
-            }}>
+          {/* <FormControl fullWidth>
+            <InputLabel
+              htmlFor="standard-adornment-amount"
+              style={{
+                fontSize: "10px",
+              }}
+            >
               Min
             </InputLabel>
             <Input
@@ -250,20 +210,23 @@ const Collections: React.FC = () => {
                 width: "50px",
               }}
               value={minPrice}
-              onChange={(val) => {
-                handleChangeMinPrice(maxPrice);
-              }}
+              // onKeyPress={
+              //   (e) => {console.log(e.target)}
+              // }
+              // onChange={(e) => handleChangeMinPrice(e.target.value)}
               startAdornment={
                 <InputAdornment position="start">₺</InputAdornment>
               }
             />
           </FormControl>
           <FormControl fullWidth>
-            <InputLabel htmlFor="standard-adornment-amount"
-            style={{
-              fontSize: "10px",
-            }}>
-              Max 
+            <InputLabel
+              htmlFor="standard-adornment-amount"
+              style={{
+                fontSize: "10px",
+              }}
+            >
+              Max
             </InputLabel>
             <Input
               id="standard-adornment-max"
@@ -276,7 +239,18 @@ const Collections: React.FC = () => {
                 <InputAdornment position="start">₺</InputAdornment>
               }
             />
-          </FormControl>
+          </FormControl> */}
+
+          <label htmlFor="customRange2" className="form-label">
+            Max Price
+          </label>
+          <input
+            type="range"
+            className="form-range"
+            min="0"
+            max="5"
+            id="customRange2"
+          ></input>
         </Filter>
 
         <Seperator />
@@ -318,20 +292,44 @@ const Collections: React.FC = () => {
 
       <Content>
         <FilterInfoBar>
-          <div style={{
-            padding : "5px",
-          }}>Price: 0 - 100</div>
+          <div
+            style={{
+              padding: "5px",
+            }}
+          >
+            Price: 0 - 100
+          </div>
         </FilterInfoBar>
 
-        <Table>
-          <ItemCard data={productsss[0]}/>
-          <ItemCard data={productsss[1]}/>
-          <ItemCard data={productsss[2]}/>
-          <ItemCard data={productsss[3]}/>
-          <ItemCard data={productsss[4]}/>
-          <ItemCard data={productsss[5]}/>
-          {productsCards}
-        </Table>
+        <Table>{productsCards}</Table>
+
+        {/* <nav aria-label="...">
+          <ul className="pagination">
+            <li className="page-item disabled">
+              <span className="page-link">Previous</span>
+            </li>
+            <li className="page-item">
+              <a className="page-link" href="#">
+                1
+              </a>
+            </li>
+            <li className="page-item active">
+              <span className="page-link">
+                2<span className="sr-only"></span>
+              </span>
+            </li>
+            <li className="page-item">
+              <a className="page-link" href="#">
+                3
+              </a>
+            </li>
+            <li className="page-item">
+              <a className="page-link" href="#">
+                Next
+              </a>
+            </li>
+          </ul>
+        </nav> */}
       </Content>
     </CollectionsPageDiv>
   );
