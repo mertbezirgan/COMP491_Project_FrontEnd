@@ -24,16 +24,16 @@ const Register: React.FC<Props> = ({ history }) => {
   const [, setLogged] = useLocalStorage(storageKeys.logged, false);
 
   const initialValues: IUser = {
-    username: "",
+    name: "",
     email: "",
     password: "",
   };
 
   const validationSchema = Yup.object().shape({
-    username: Yup.string()
+    name: Yup.string()
       .test(
         "len",
-        "The username must be between 3 and 20 characters.",
+        "The name must be between 3 and 20 characters.",
         (val: any) =>
           val && val.toString().length >= 3 && val.toString().length <= 20
       )
@@ -52,10 +52,10 @@ const Register: React.FC<Props> = ({ history }) => {
   });
 
   const handleRegister = async (formValue: IUser) => {
-    const { username, email, password } = formValue;
+    const { name, email, password } = formValue;
     setLoading(true);
 
-    let data = await register(username, email, password);
+    let data = await register(name, email, password);
     if (!data || !data.success) {
       setSuccessful(false);
       setMessage(data.message);
@@ -83,17 +83,17 @@ const Register: React.FC<Props> = ({ history }) => {
                     <h3>Create New Account</h3>
                   </div>
                   <div className="form-group">
-                    <label className="mt-4 mb-2" htmlFor="username">
+                    <label className="mt-4 mb-2" htmlFor="name">
                       {" "}
                       Full Name{" "}
                     </label>
                     <Field
-                      name="username"
+                      name="name"
                       type="text"
                       className="form-control"
                     />
                     <ErrorMessage
-                      name="username"
+                      name="name"
                       component="div"
                       className="alert alert-danger"
                     />

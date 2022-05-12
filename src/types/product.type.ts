@@ -1,16 +1,13 @@
+import IProductImage from "./productImage.type";
+
 export default interface IProduct {
-    bundle_price: number;
-    createdAt: string;
-    desc: string;
-    id?: any | null,
-    name: string;
-    once_sold: boolean;
-    price: number;
-    productImages: [];
-    productReviews: [];
-    stockKeepingUnits: [];
-    token: any;
-    token_id: string;
-    updatedAt: string;
-    weight: number;
-};
+  id: number;
+  name: string;
+  description: string;
+  weight: number;
+  bundle_price: number;
+  price: number;
+  once_sold: boolean;
+  token_id: number;
+  productImages: IProductImage[];
+}
