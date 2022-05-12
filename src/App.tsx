@@ -42,6 +42,7 @@ import { getStorageItem, storageKeys } from "./services/storage.service";
 import Footer from "./components/Footer";
 import Profile from "./screens/Profile";
 import { useLocalStorage } from 'usehooks-ts'
+import Checkout from "./screens/Checkout";
 
 // Default styles that can be overridden by your app
 require("@solana/wallet-adapter-react-ui/styles.css");
@@ -94,6 +95,7 @@ const App: React.FC = () => {
                 <Route exact path="/collections" component={Collections} />
                 <Route exact path="/product/:id" component={ProductPage} />
                 <Route exact path="/profile" component={Profile} />
+                <Route exact path="/checkout/:sku_id" component={Checkout} />
                 {/* <Route path="/user" component={BoardUser} />
           <Route path="/mod" component={BoardModerator} />
           <Route path="/admin" component={BoardAdmin} /> */}
