@@ -4,6 +4,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { Product } from "../modal/Product/Product";
 import { Card } from "@material-ui/core";
 import { BackIcon, ForwardIcon } from "../asset/Icons";
+import IProduct from "../types/product.type";
 
 const StyledCard = styled(Card)`
   display: flex;
@@ -41,37 +42,39 @@ const ButtonGroup = styled.div`
   justify-content: center;
 `;
 
-const ItemCard: React.FC<{ data: any }> = ({ data }) => {
-  console.log(data);
-  // const [pickedImage, setPickedImage] = React.useState(data.images[0]);
+const ItemCard: React.FC<{ data: IProduct }> = ({ data }) => {
+  const [pickedImage, setPickedImage] = React.useState(data.token.image_url);
 
-  // const backClickHandler = () => {
-  //   const index = data.images.indexOf(pickedImage);
-  //   if (index > 0) {
-  //     setPickedImage(data.images[index - 1]);
-  //   }
-  // };
+  const images = [
+    data.token.image_url,
+    ...data.productImages.map((image) => image.image_url),
+  ]
 
-  // const forwardClickHandler = () => {
-  //   const index = data.images.indexOf(pickedImage);
-  //   if (index < data.images.length - 1 && data.images.length > 1) {
-  //     setPickedImage(data.images[index + 1]);
-  //   }
-  // };
+  const backClickHandler = () => {
+    const index = images.indexOf(pickedImage);
+    if (index > 0) {
+      setPickedImage(images[index - 1]);
+    }
+  };
 
-  console.log("aaaaaaaâ");
+  const forwardClickHandler = () => {
+    const index = images.indexOf(pickedImage);
+    if (index < images.length - 1 && images.length > 1) {
+      setPickedImage(images[index + 1]);
+    }
+  };
 
   return (
     <StyledCard>
-      {/* <img src={pickedImage} alt={data.name} />
+      <img src={pickedImage} alt={data.name} />
       <ButtonGroup>
         <IconButton onClick={backClickHandler}>
           <BackIcon />
         </IconButton>
         <IconButton onClick={forwardClickHandler}>
           <ForwardIcon />
-        </IconButton> */}
-      {/* </ButtonGroup> */}
+        </IconButton>
+      </ButtonGroup>
       <h5>{data.name}</h5>
       <h6>Price: {data.price}₺</h6>
       <h6>Bundle price: {data.price}₺</h6>

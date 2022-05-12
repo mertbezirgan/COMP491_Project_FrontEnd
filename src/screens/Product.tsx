@@ -116,6 +116,8 @@ const ProductPage: React.FC = () => {
     setLoading(false);
   };
 
+  console.log(product);
+
   useEffect(() => {
     if (publicKey) {
       getProduct(Number(id)).then((res) => {

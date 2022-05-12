@@ -1,5 +1,5 @@
-// const BASE_API_URL = "http://localhost:3000/api";
-const BASE_API_URL = "http://192.168.1.37:3001/api";
+const BASE_API_URL = "http://localhost:3001/api";
+// const BASE_API_URL = "http://192.168.1.34:3001/api";
 // const BASE_API_URL = "http://api.nft.com/api";
 
 const authRoutes = {
