@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Button, Accordion, Form } from 'react-bootstrap';
+import { Button, Accordion, Form, Spinner, Carousel } from 'react-bootstrap';
 import IProduct from "../types/product.type";
 import { getProduct } from "../services/Product/product.service";
 import { useParams } from "react-router-dom";
@@ -101,80 +101,102 @@ const ProductPage: React.FC = () => {
     <Styles>
       <div className="container">
         {loading ? (
-          <>Loading</>
+          <div className="pt-15 pb-15 pageMainDiv">
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          </div>
         ) : (
           <div className="pt-5 pb-5 pageMainDiv">
-          <div className="col-md-5 leftDiv">
-            <div className="imageDiv">
-              <img
-                src={product?.token.image_url}
-                className="col-md-12"
-              ></img>
+            <div className="col-md-5 leftDiv">
+              <div className="imageDiv">
+                <Carousel variant='dark' style={{ height: "700px" }}>
+                  <Carousel.Item>
+                    <img
+                      className="d-block w-100"
+                      src={product?.token.image_url}
+                      alt="First slide"
+                    />
+                  </Carousel.Item>
+                  <Carousel.Item>
+                    <img
+                      className="d-block w-100"
+                      src={product?.productImages[0].image_url}
+                      alt="Second slide"
+                    />
+                  </Carousel.Item>
+                </Carousel>
+              </div>
+              <div className="col-md-12">
+                <Accordion defaultActiveKey={['0']} alwaysOpen>
+                  <Accordion.Item eventKey="2">
+                    <Accordion.Header>Description</Accordion.Header>
+                    <Accordion.Body>
+                      Created by <span className="text-primary">Eko</span>
+                      <br />
+                      {product?.description}
+                    </Accordion.Body>
+                  </Accordion.Item>
+                  <Accordion.Item eventKey="1">
+                    <Accordion.Header>Details</Accordion.Header>
+                    <Accordion.Body>
+                      {product?.token.createdAt}
+                    </Accordion.Body>
+                  </Accordion.Item>
+                </Accordion>
+              </div>
             </div>
-            <div className="col-md-12">
-              <Accordion defaultActiveKey={['0']} alwaysOpen>
-                <Accordion.Item eventKey="2">
-                  <Accordion.Header>Description</Accordion.Header>
-                  <Accordion.Body>
-                    Created by <span className="text-primary">Eko</span>
-                    <br />
-                    {product?.description}
-                  </Accordion.Body>
-                </Accordion.Item>
-                <Accordion.Item eventKey="1">
-                  <Accordion.Header>Details</Accordion.Header>
-                  <Accordion.Body>
-                    ????
-                  </Accordion.Body>
-                </Accordion.Item>
-              </Accordion>
-            </div>
-          </div>
-          <div className="col-md-7 rightDiv">
-            <div>
-              <h1 className="fs-5 text-primary">{product?.name}</h1>
-            </div>
-            <div>
-              <h2 className="fs-1"
+            <div className="col-md-7 rightDiv">
+              <div>
+                <h1 className="fs-5">by <span className="text-primary">Eko</span></h1>
+              </div>
+              <div>
+                <h2 className="fs-1"
+                  style={{
+                    fontWeight: "bold",
+                  }}
+                >
+                  {product?.name}
+                </h2>
+              </div>
+              <div
                 style={{
-                  fontWeight: "bold",
+                  textAlign: "center",
+                  margin: "10px",
                 }}
               >
-                {product?.name}
-              </h2>
+                <h5>{product?.price}$</h5>
+              </div>
+              <div className="col-md-5">
+                {product?.once_sold ? (
+                  <div>
+                    <Form.Select>
+                      <option value="xs">XS</option>
+                      <option value="s">S</option>
+                      <option value="m">M</option>
+                      <option value="l">L</option>
+                      <option value="xl">XL</option>
+                    </Form.Select>
+                    <Button
+                      style={{
+                        minWidth: "auto",
+                        border: "1px solid",
+                        borderRadius: "15px",
+                        marginTop: "50px",
+                        fontSize: "30px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      <i className="fa fa-money"></i>
+                      {" "}Buy NOW
+                    </Button>
+                  </div>
+                ) : (
+                  <h6> Product is not owned by anyone. </h6>
+                )}
+              </div>
             </div>
-            <div
-              style={{
-                textAlign: "center",
-                margin: "10px",
-              }}
-            >
-              <h5>{product?.bundle_price}$</h5>
-            </div>
-            <div className="col-md-5">
-              <Form.Select>
-                <option value="xs">XS</option>
-                <option value="s">S</option>
-                <option value="m">M</option>
-                <option value="l">L</option>
-                <option value="xl">XL</option>
-              </Form.Select>
-            </div>
-            <Button
-              style={{
-                minWidth: "auto",
-                border: "1px solid",
-                borderRadius: "15px",
-                marginTop: "50px",
-                fontSize: "30px",
-                fontWeight: "bold",
-              }}
-            >
-              <i className="fa fa-money"></i>
-              {" "}Buy NOW
-            </Button>
           </div>
-        </div>
         )}
       </div>
     </Styles>
