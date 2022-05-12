@@ -11,7 +11,7 @@ const getProduct = async (productId: number) => {
     let data = await axios.get(productRoutes.create + `/${productId}`);
     if (!data || !data.data.success) return null;
 
-    return data.data;
+    return data.data.data;
   } catch (error) {
     console.log(error);
     return null;
