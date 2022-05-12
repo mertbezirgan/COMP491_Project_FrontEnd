@@ -10,7 +10,7 @@ import Register from "./screens/Register";
 import Home from "./screens/Home";
 import EventBus from "./common/EventBus";
 import Working from "./components/Working";
-import Collections from "./components/Collections";
+import Collections from "./screens/Collections";
 import ProductPage from "./screens/Product";
 
 import {

@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ProductRepo } from "../modal/Product/Product.repository";
 import { Product } from "../modal/Product/Product";
-import ItemCard from "./ItemCard";
+import ItemCard from "../components/ItemCard";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import Slider from "@material-ui/core/Slider";
 import { listProduct } from "../services/Product/product.service";
 import InputLabel from "@material-ui/core/InputLabel";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -164,24 +163,16 @@ const productsss = [
   },
 ]
 
-// const productCards = (products: Product[]) => {
-//   return products.map((product) => (
-//     // <Link to="/product" key={product.id}>
-//     <ItemCard data={product} />
-//     // </Link>
-//   ));
-// };
-
 const Collections: React.FC = () => {
-  const [checked, setChecked] = React.useState({
-    owned: true,
-    notOwned: true,
-  });
-
-  const [price, setPrice] = React.useState<number[]>([0, 100]);
+  
   const [productsList, setproductsList] = useState<Product[]>([]);
+  
   const [extendOwned, setExtendOwned] = React.useState(false);
-
+  
+  const [checked, setChecked] = React.useState({
+    owned: false,
+    notOwned: false,
+  });
   const [minPrice, setMinPrice] = React.useState<number>(0);
   const [maxPrice, setMaxPrice] = React.useState<number>(100);
 
@@ -189,11 +180,12 @@ const Collections: React.FC = () => {
     target: { name: any; checked: any };
   }) {
     setChecked({ ...checked, [event.target.name]: event.target.checked });
+    console.log(checked.notOwned);
   }
 
   const handleChangeMinPrice =
-    (prop: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-      // setMinPrice(prop);
+    (prop: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setMinPrice(prop);
       console.log(prop);
     };
 
@@ -214,7 +206,9 @@ const Collections: React.FC = () => {
     };
     const fetch = async () => {
       const data = await listProduct(input);
-      setproductsList(data.data);
+
+      setproductsList(data.data.data);
+      
       return data.data;
     };
     const res = fetch();
@@ -222,7 +216,21 @@ const Collections: React.FC = () => {
 
   useEffect(() => {
     console.log(productsList);
+    // console.log(productsList[0]);
+
   }, [productsList]);
+
+  const productsCards = productsList.map(product => {
+    console.log(product);
+    return <ItemCard data={product} key={product.id} />;
+  });
+  
+  // function getProductCards() {
+  //   if (productsList.length > 0) {
+  //     console.log(productsList[0]);
+  //       return <ItemCard data={productsList[0]}/>;
+  //   }
+  // };
 
   return (
     <CollectionsPageDiv>
@@ -243,7 +251,7 @@ const Collections: React.FC = () => {
               }}
               value={minPrice}
               onChange={(val) => {
-                handleChangeMinPrice(val.target.value);
+                handleChangeMinPrice(maxPrice);
               }}
               startAdornment={
                 <InputAdornment position="start">₺</InputAdornment>
@@ -313,7 +321,6 @@ const Collections: React.FC = () => {
           <div style={{
             padding : "5px",
           }}>Price: 0 - 100</div>
-          {/* <div>ad</div> */}
         </FilterInfoBar>
 
         <Table>
@@ -323,6 +330,7 @@ const Collections: React.FC = () => {
           <ItemCard data={productsss[3]}/>
           <ItemCard data={productsss[4]}/>
           <ItemCard data={productsss[5]}/>
+          {productsCards}
         </Table>
       </Content>
     </CollectionsPageDiv>

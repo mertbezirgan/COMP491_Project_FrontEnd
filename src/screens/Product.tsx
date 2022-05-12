@@ -82,7 +82,6 @@ const Styles = styled.div`
       color: #878787;
   
       overflow: hidden;
-      // text-overflow: ellipsis; gerek yok?
       line-height: 1.5em;
       max-height: 3em;
     }
