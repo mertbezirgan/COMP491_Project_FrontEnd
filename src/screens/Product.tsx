@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import styled from "styled-components";
-import { Button, Accordion, Form } from "react-bootstrap";
+import { Button, Accordion, Form, Spinner, Carousel } from 'react-bootstrap';
 import IProduct from "../types/product.type";
 import { getProduct } from "../services/Product/product.service";
 import { useParams } from "react-router-dom";
@@ -76,7 +76,6 @@ const Styles = styled.div`
       color: #878787;
 
       overflow: hidden;
-      // text-overflow: ellipsis; gerek yok?
       line-height: 1.5em;
       max-height: 3em;
     }
@@ -133,15 +132,36 @@ const ProductPage: React.FC = () => {
     <Styles>
       <div className="container">
         {loading ? (
-          <>Loading</>
+          <div className="pt-15 pb-15 pageMainDiv">
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          </div>
         ) : (
           <div className="pt-5 pb-5 pageMainDiv">
             <div className="col-md-5 leftDiv">
               <div className="imageDiv">
-                <img src={product?.token.image_url} className="col-md-12"></img>
+
+                <Carousel variant='dark' style={{ height: "700px" }}>
+                  <Carousel.Item>
+                    <img
+                      className="d-block w-100"
+                      src={product?.token.image_url}
+                      alt="First slide"
+                    />
+                  </Carousel.Item>
+                  <Carousel.Item>
+                    <img
+                      className="d-block w-100"
+                      src={product?.productImages[0].image_url}
+                      alt="Second slide"
+                    />
+                  </Carousel.Item>
+                </Carousel>
               </div>
               <div className="col-md-12">
-                <Accordion defaultActiveKey={["0"]} alwaysOpen>
+                <Accordion defaultActiveKey={['0']} alwaysOpen>
+
                   <Accordion.Item eventKey="2">
                     <Accordion.Header>Description</Accordion.Header>
                     <Accordion.Body>
@@ -152,18 +172,23 @@ const ProductPage: React.FC = () => {
                   </Accordion.Item>
                   <Accordion.Item eventKey="1">
                     <Accordion.Header>Details</Accordion.Header>
-                    <Accordion.Body>????</Accordion.Body>
+
+                    <Accordion.Body>
+                      {product?.token.createdAt}
+                    </Accordion.Body>
+
                   </Accordion.Item>
                 </Accordion>
               </div>
             </div>
             <div className="col-md-7 rightDiv">
               <div>
-                <h1 className="fs-5 text-primary">{product?.name}</h1>
+
+                <h1 className="fs-5">by <span className="text-primary">Eko</span></h1>
               </div>
               <div>
-                <h2
-                  className="fs-1"
+                <h2 className="fs-1"
+
                   style={{
                     fontWeight: "bold",
                   }}
@@ -177,7 +202,7 @@ const ProductPage: React.FC = () => {
                   margin: "10px",
                 }}
               >
-                <h5>{product?.bundle_price}$</h5>
+                <h5>{product?.price}$</h5>
               </div>
               <div className="col-md-5">
                 <Form.Select>
@@ -196,6 +221,7 @@ const ProductPage: React.FC = () => {
                   marginTop: "50px",
                   fontSize: "30px",
                   fontWeight: "bold",
+
                 }}
                 disabled={!owned || loading}
               >

@@ -42,33 +42,36 @@ const ButtonGroup = styled.div`
 `;
 
 const ItemCard: React.FC<{ data: any }> = ({ data }) => {
-  const [pickedImage, setPickedImage] = React.useState(data.images[0]);
+  console.log(data);
+  // const [pickedImage, setPickedImage] = React.useState(data.images[0]);
 
-  const backClickHandler = () => {
-    const index = data.images.indexOf(pickedImage);
-    if (index > 0) {
-      setPickedImage(data.images[index - 1]);
-    }
-  };
+  // const backClickHandler = () => {
+  //   const index = data.images.indexOf(pickedImage);
+  //   if (index > 0) {
+  //     setPickedImage(data.images[index - 1]);
+  //   }
+  // };
 
-  const forwardClickHandler = () => {
-    const index = data.images.indexOf(pickedImage);
-    if (index < data.images.length - 1 && data.images.length > 1) {
-      setPickedImage(data.images[index + 1]);
-    }
-  };
+  // const forwardClickHandler = () => {
+  //   const index = data.images.indexOf(pickedImage);
+  //   if (index < data.images.length - 1 && data.images.length > 1) {
+  //     setPickedImage(data.images[index + 1]);
+  //   }
+  // };
+
+  console.log("aaaaaaaâ");
 
   return (
     <StyledCard>
-      <img src={pickedImage} alt={data.name} />
+      {/* <img src={pickedImage} alt={data.name} />
       <ButtonGroup>
         <IconButton onClick={backClickHandler}>
           <BackIcon />
         </IconButton>
         <IconButton onClick={forwardClickHandler}>
           <ForwardIcon />
-        </IconButton>
-      </ButtonGroup>
+        </IconButton> */}
+      {/* </ButtonGroup> */}
       <h5>{data.name}</h5>
       <h6>Price: {data.price}₺</h6>
       <h6>Bundle price: {data.price}₺</h6>
