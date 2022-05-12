@@ -22,7 +22,7 @@ const Working: React.FC = () => {
           // programId: new solanaWeb3.PublicKey(
           //   "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
           // ),
-          mint: new PublicKey("5bDJE7VECkrfQBNTg11Ef9HFY84vHAcsJcMD4gMpwmTF"),
+          mint: new PublicKey("7j3tWsEWyjZQVytaVzaDprQ9dfbJ3R3P4YTPvLnfFCiP"),
         }
       );
 
