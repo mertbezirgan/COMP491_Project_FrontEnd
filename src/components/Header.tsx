@@ -1,3 +1,7 @@
+import {
+  WalletDisconnectButton,
+  WalletMultiButton,
+} from "@solana/wallet-adapter-react-ui";
 import React, { useEffect } from "react";
 import { Button, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { useLocalStorage } from "usehooks-ts";
@@ -5,7 +9,7 @@ import { storageKeys } from "../services/storage.service";
 import IUser from "../types/user.type";
 
 interface HeaderProps {
-  logout: () => void
+  logout: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ logout }) => {
@@ -29,6 +33,8 @@ const Header: React.FC<HeaderProps> = ({ logout }) => {
         </Navbar.Collapse>
         <Navbar.Collapse className="justify-content-end">
           <Nav>
+            <WalletMultiButton />
+            <WalletDisconnectButton />
             {logged ? (
               <Nav.Link>
                 <Button onClick={logout}>Logout</Button>
