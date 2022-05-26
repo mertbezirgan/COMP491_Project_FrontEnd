@@ -13,10 +13,9 @@ import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
 import IProduct from "../types/product.type";
 import { Link } from "react-router-dom";
-import { Col, Form, Row } from "react-bootstrap";
+import { Col, Form, Row, Accordion } from "react-bootstrap";
 import { IconButton } from "@material-ui/core";
-
-// import RangeSlider from 'react-bootstrap-range-slider';
+import { Prev } from "react-bootstrap/esm/PageItem";
 
 const CollectionsPageDiv = styled.div`
   display: flex;
@@ -115,9 +114,14 @@ const FilterInfoBar = styled.div`
   }
 `;
 
-// const Slider = styled.div`
-//   width:
-// `;
+const Pagination = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  margin: 25px;
+`;
 
 const Collections: React.FC = () => {
   const [productsList, setProductList] = useState<IProduct[]>([]);
@@ -130,98 +134,38 @@ const Collections: React.FC = () => {
   });
   const [minPrice, setMinPrice] = React.useState<number>(0);
   const [maxPrice, setMaxPrice] = React.useState<number>(500);
+  const [offset, setOffset] = React.useState<number>(0);
 
   function handleChangeCheckbox(event: {
     target: { name: any; checked: any };
   }) {
     setChecked({ ...checked, [event.target.name]: event.target.checked });
-    console.log(checked.notOwned);
+    // console.log(checked.notOwned);
   }
 
-  const handleExtendOwned = () => {
-    setExtendOwned(!extendOwned);
-  };
-
-  //Initial product list
-  useEffect(() => {
-    const input = {
-      limit: 10,
-      offset: 0,
-    };
-    const fetch = async () => {
-      const data = await listProduct(input);
-
-      setProductList(data.data.data);
-      console.log(data.data.data);
-      return data.data;
-    };
-    const res = fetch();
-  }, []);
-
-  //Min-price-filtered product list
+  //Change page
   useEffect(() => {
     const input = {
       minPrice: minPrice,
-      limit: 10,
-      offset: 0,
-    };
-
-    const fetch = async () => {
-      const data = await listProduct(input);
-
-      setProductList(data.data.data);
-      console.log(data.data.data);
-      return data.data;
-    };
-    const res = fetch();
-  }, [minPrice]);
-
-  //Max-price-filtered product list
-  useEffect(() => {
-    const input = {
       maxPrice: maxPrice,
-      limit: 10,
-      offset: 0,
+      limit: 5,
+      offset: offset,
     };
 
     const fetch = async () => {
       const data = await listProduct(input);
 
-      setProductList(data.data.data);
+      if (data.data.data.length > 0) {
+        setProductList(data.data.data);
+      } else {
+        setOffset(offset - 5);
+      }
+
       console.log(data.data.data);
       return data.data;
     };
     const res = fetch();
-  }, [maxPrice]);
-
-
-  //               ????? @@@@@@@@@@@@@ ?????
-
-  // //Once-sold-filtered product list
-  // useEffect(() => {
-  //   if (checked.notOwned !== checked.owned) {
-  //     var bool = false;
-
-  //     if (checked.notOwned) {
-  //       bool = true;
-  //     }
-  //   }
-
-  //   const input = {
-  //     limit: 10,
-  //     offset: 0,
-  //     notOwned: bool,
-  //   };
-
-  //   const fetch = async () => {
-  //     const data = await listProduct(input);
-
-  //     setProductList(data.data.data);
-  //     console.log(data.data.data);
-  //     return data.data;
-  //   };
-  //   const res = fetch();
-  // }, [checked]);
+  }, [minPrice, maxPrice, offset]);
 
   //Creating product list after fetching data
   const productsCards = productsList.map((product) => {
@@ -232,100 +176,106 @@ const Collections: React.FC = () => {
     );
   });
 
+  const prevPage = () => {
+    if (offset - 5 < 0) {
+      // ALERT
+    } else {
+      setOffset(offset - 5);
+    }
+  };
+
+  const nextPage = () => {
+    setOffset(offset + 5);
+  };
+
   // console.log(minPrice, maxPrice);
+  console.log(offset);
 
   return (
     <CollectionsPageDiv>
       <SidebarDiv>
-        <Filter>
-          <FilterTitle>Price</FilterTitle>
+        <Accordion defaultActiveKey={["0"]} alwaysOpen>
+          <Accordion.Item eventKey="2">
+            <Accordion.Header>Price</Accordion.Header>
+            <Accordion.Body>
+              <label className="mt-2 form-label">Min Price</label>
+              <span>
+                <input
+                  type="range"
+                  style={{
+                    width: "70%",
+                    verticalAlign: "middle",
+                  }}
+                  value={minPrice}
+                  onChange={(e) => setMinPrice(parseInt(e.target.value))}
+                  className="form-range"
+                  min="0"
+                  max={maxPrice}
+                  step="10"
+                />
+                <span
+                  style={{
+                    marginLeft: "10px",
+                  }}
+                >
+                  {minPrice}
+                </span>
+              </span>
 
-          <label className="mt-2 form-label">Min Price</label>
-          <span>
-            <input
-              type="range"
-              style={{
-                width: "70%",
-                verticalAlign: "middle",
-              }}
-              value={minPrice}
-              onChange={(e) => setMinPrice(parseInt(e.target.value))}
-              className="form-range"
-              min="0"
-              max={maxPrice}
-              step="10"
-            />
-            <span
-              style={{
-                marginLeft: "10px",
-              }}
-            >
-              {minPrice}
-            </span>
-          </span>
+              <label className="mt-2 form-label">Max Price</label>
+              <span>
+                <input
+                  type="range"
+                  style={{
+                    width: "70%",
+                  }}
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(parseInt(e.target.value))}
+                  className="form-range"
+                  min={minPrice}
+                  max="500"
+                  step="10"
+                />
+                <span
+                  style={{
+                    marginLeft: "10px",
+                  }}
+                >
+                  {maxPrice}
+                </span>
+              </span>
+            </Accordion.Body>
+          </Accordion.Item>
 
-          <label className="mt-2 form-label">Max Price</label>
-          <span>
-            <input
-              type="range"
-              style={{
-                width: "70%",
-              }}
-              value={maxPrice}
-              onChange={(e) => setMaxPrice(parseInt(e.target.value))}
-              className="form-range"
-              min={minPrice}
-              max="500"
-              step="10"
-            />
-            <span
-              style={{
-                marginLeft: "10px",
-              }}
-            >
-              {maxPrice}
-            </span>
-          </span>
-        </Filter>
-
-        <Seperator />
-
-        <Filter>
-          <FilterTitle>
-            <span>Is Owned?</span>
-
-            {/* TODO */}
-
-            <ExtendButton onClick={handleExtendOwned}>v</ExtendButton>
-          </FilterTitle>
-          {extendOwned ? (
-            <div>
-              <FormControlLabel
-                className="title"
-                control={
-                  <Checkbox
-                    checked={checked.owned}
-                    onChange={handleChangeCheckbox}
-                    name="owned"
-                  />
-                }
-                label="Owned"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={checked.notOwned}
-                    onChange={handleChangeCheckbox}
-                    name="notOwned"
-                  />
-                }
-                label="Not Owned"
-              />
-            </div>
-          ) : null}
-        </Filter>
-
-        <Seperator />
+          <Accordion.Item eventKey="1">
+            <Accordion.Header>Details</Accordion.Header>
+            <Accordion.Body>
+              <div>
+                <FormControlLabel
+                  className="title"
+                  control={
+                    <Checkbox
+                      checked={checked.owned}
+                      onChange={handleChangeCheckbox}
+                      name="owned"
+                    />
+                  }
+                  label="Owned"
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={checked.notOwned}
+                      onChange={handleChangeCheckbox}
+                      name="notOwned"
+                    />
+                  }
+                  label="Not Owned"
+                />
+              </div>
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
       </SidebarDiv>
 
       <Content>
@@ -341,33 +291,26 @@ const Collections: React.FC = () => {
 
         <Table>{productsCards}</Table>
 
-        {/* <nav aria-label="...">
-          <ul className="pagination">
-            <li className="page-item disabled">
-              <span className="page-link">Previous</span>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                1
-              </a>
-            </li>
-            <li className="page-item active">
-              <span className="page-link">
-                2<span className="sr-only"></span>
-              </span>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                3
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
+        <Pagination>
+          {/* <nav aria-label="..."> */}
+            {/* <ul className="pagination"> */}
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={prevPage}
+              >
+                Previous
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={nextPage}
+              >
                 Next
-              </a>
-            </li>
-          </ul>
-        </nav> */}
+              </button>
+            {/* </ul> */}
+          {/* </nav> */}
+        </Pagination>
       </Content>
     </CollectionsPageDiv>
   );
