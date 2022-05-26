@@ -9,6 +9,7 @@ import { RouteComponentProps } from "react-router-dom";
 import { useLocalStorage } from "usehooks-ts";
 import { storageKeys } from "../services/storage.service";
 import "../css/register.css";
+import axios from "axios";
 
 interface RouterProps {
   history: string;
@@ -22,6 +23,8 @@ const Register: React.FC<Props> = ({ history }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [, setCurrentUser] = useLocalStorage(storageKeys.user, null);
   const [, setLogged] = useLocalStorage(storageKeys.logged, false);
+  const [, setToken] = useLocalStorage(storageKeys.token, "");
+
 
   const initialValues: IUser = {
     name: "",
@@ -60,7 +63,9 @@ const Register: React.FC<Props> = ({ history }) => {
       setSuccessful(false);
       setMessage(data.message);
     } else {
-      setCurrentUser(data.data);
+      setCurrentUser(data.data.user);
+      setToken(data.data.token);
+      axios.defaults.headers["Authorization"] = `Bearer ${data.data.token}`;
       setLogged(true);
       history.push("/profile");
     }
