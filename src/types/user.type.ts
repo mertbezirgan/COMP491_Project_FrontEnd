@@ -1,4 +1,5 @@
 import IOrder from "./order.type"
+import IProductReview from "./productReview.type"
 
 export default interface IUser {
   id?: any | null,
@@ -7,4 +8,5 @@ export default interface IUser {
   password: string,
   roles?: Array<string>
   orders?: IOrder[]
+  productReviews?: IProductReview[];
 }

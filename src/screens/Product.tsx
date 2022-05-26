@@ -82,6 +82,7 @@ const Styles = styled.div`
   }
 `;
 
+
 const ProductPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<IProduct | null>(null);
@@ -89,6 +90,10 @@ const ProductPage: React.FC = () => {
   const { connection } = useConnection();
   const { publicKey } = useWallet();
   const [owned, setowned] = useState(false);
+  const sizeSizes = ["XS", "S", "M", "L", "XL"];
+  const [sizeStock, setSizeStock] = useState<number[]>([]);
+  const [sizeAvailable, setsizeAvailable] = useState<boolean[]>([]);
+
 
   const checkOwnerShip = async (key: string) => {
     console.log(publicKey);
@@ -116,6 +121,23 @@ const ProductPage: React.FC = () => {
     setLoading(false);
   };
 
+  const loadStock = async (product: IProduct) => {
+    let sizeStock = [0, 0, 0, 0, 0];
+          let sizeAvailable = [true, true, true, true, true];
+          for (let i = 0; i < sizeStock.length; i++) {
+            for (let j = 0; j < product.stockKeepingUnits.length; j++) {
+              if (product.stockKeepingUnits[j].size === sizeSizes[i]) {
+                sizeStock[i] = product.stockKeepingUnits[j].stock;
+                if (sizeStock[i] > 0) {
+                  sizeAvailable[i] = false;
+                }
+              }
+            }
+          }
+          setSizeStock(sizeStock);
+          setsizeAvailable(sizeAvailable);
+  }
+
   console.log(product);
 
   useEffect(() => {
@@ -124,11 +146,13 @@ const ProductPage: React.FC = () => {
         console.log(res);
         if (res) {
           setProduct(res);
+          loadStock(res);
           checkOwnerShip(res.token.token_address);
         }
       });
     }
   }, [publicKey]);
+
 
   return (
     <Styles>
@@ -144,7 +168,7 @@ const ProductPage: React.FC = () => {
             <div className="col-md-5 leftDiv">
               <div className="imageDiv">
 
-                <Carousel variant='dark' style={{ height: "700px" }}>
+                <Carousel variant='dark' style={{ height: "800px" }}>
                   <Carousel.Item>
                     <img
                       className="d-block w-100"
@@ -208,11 +232,11 @@ const ProductPage: React.FC = () => {
               </div>
               <div className="col-md-5">
                 <Form.Select>
-                  <option value="xs">XS</option>
-                  <option value="s">S</option>
-                  <option value="m">M</option>
-                  <option value="l">L</option>
-                  <option value="xl">XL</option>
+                  <option value="xs" disabled={sizeAvailable[0]}>XS</option>
+                  <option value="s" disabled={sizeAvailable[1]}>S</option>
+                  <option value="m" disabled={sizeAvailable[2]}>M</option>
+                  <option value="l" disabled={sizeAvailable[3]}>L</option>
+                  <option value="xl" disabled={sizeAvailable[4]}>XL</option>
                 </Form.Select>
               </div>
               <Button
@@ -231,8 +255,8 @@ const ProductPage: React.FC = () => {
                 {loading
                   ? "loading"
                   : owned
-                  ? "Buy NOW"
-                  : "You need to own the related nft!"}
+                    ? "Buy NOW"
+                    : "You need to own the related nft!"}
               </Button>
             </div>
           </div>
