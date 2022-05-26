@@ -15,7 +15,6 @@ import IProduct from "../types/product.type";
 import { Link } from "react-router-dom";
 import { Col, Form, Row, Accordion } from "react-bootstrap";
 import { IconButton } from "@material-ui/core";
-import Pagination from "react-bootstrap/Pagination";
 import { Prev } from "react-bootstrap/esm/PageItem";
 
 const CollectionsPageDiv = styled.div`
@@ -115,6 +114,15 @@ const FilterInfoBar = styled.div`
   }
 `;
 
+const Pagination = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  margin: 25px;
+`;
+
 const Collections: React.FC = () => {
   const [productsList, setProductList] = useState<IProduct[]>([]);
 
@@ -132,107 +140,32 @@ const Collections: React.FC = () => {
     target: { name: any; checked: any };
   }) {
     setChecked({ ...checked, [event.target.name]: event.target.checked });
-    console.log(checked.notOwned);
+    // console.log(checked.notOwned);
   }
 
-  //Initial product list
-  useEffect(() => {
-    const input = {
-      limit: 10,
-      offset: 0,
-    };
-    const fetch = async () => {
-      const data = await listProduct(input);
-
-      setProductList(data.data.data);
-      console.log(data.data.data);
-      return data.data;
-    };
-    const res = fetch();
-  }, []);
-
-  //Min-price-filtered product list
-  useEffect(() => {
-    const input = {
-      minPrice: minPrice,
-      limit: 10,
-      offset: 0,
-    };
-
-    const fetch = async () => {
-      const data = await listProduct(input);
-
-      setProductList(data.data.data);
-      console.log(data.data.data);
-      return data.data;
-    };
-    const res = fetch();
-  }, [minPrice]);
-
-  //Max-price-filtered product list
-  useEffect(() => {
-    const input = {
-      maxPrice: maxPrice,
-      limit: 10,
-      offset: 0,
-    };
-
-    const fetch = async () => {
-      const data = await listProduct(input);
-
-      setProductList(data.data.data);
-      console.log(data.data.data);
-      return data.data;
-    };
-    const res = fetch();
-  }, [maxPrice]);
-
-  //Previous page
+  //Change page
   useEffect(() => {
     const input = {
       minPrice: minPrice,
       maxPrice: maxPrice,
-      limit: 10,
-      offset: 0,
+      limit: 5,
+      offset: offset,
     };
 
     const fetch = async () => {
       const data = await listProduct(input);
 
-      setProductList(data.data.data);
+      if (data.data.data.length > 0) {
+        setProductList(data.data.data);
+      } else {
+        setOffset(offset - 5);
+      }
+
       console.log(data.data.data);
       return data.data;
     };
     const res = fetch();
-  }, [minPrice]);
-
-  //               ????? @@@@@@@@@@@@@ ?????
-
-  // //Once-sold-filtered product list
-  // useEffect(() => {
-  //   if (checked.notOwned !== checked.owned) {
-  //     var bool = false;
-
-  //     if (checked.notOwned) {
-  //       bool = true;
-  //     }
-  //   }
-
-  //   const input = {
-  //     limit: 10,
-  //     offset: 0,
-  //     notOwned: bool,
-  //   };
-
-  //   const fetch = async () => {
-  //     const data = await listProduct(input);
-
-  //     setProductList(data.data.data);
-  //     console.log(data.data.data);
-  //     return data.data;
-  //   };
-  //   const res = fetch();
-  // }, [checked]);
+  }, [minPrice, maxPrice, offset]);
 
   //Creating product list after fetching data
   const productsCards = productsList.map((product) => {
@@ -244,13 +177,17 @@ const Collections: React.FC = () => {
   });
 
   const prevPage = () => {
-    setOffset(offset - 10);
+    if (offset - 5 < 0) {
+      // ALERT
+    } else {
+      setOffset(offset - 5);
+    }
   };
 
   const nextPage = () => {
-    setOffset(offset + 10);
+    setOffset(offset + 5);
   };
- 
+
   // console.log(minPrice, maxPrice);
   console.log(offset);
 
@@ -354,16 +291,26 @@ const Collections: React.FC = () => {
 
         <Table>{productsCards}</Table>
 
-        <nav aria-label="...">
-          <ul className="pagination">
-            <button type="button" className="btn btn-primary" onClick={prevPage}>
-              Previous
-            </button>
-            <button type="button" className="btn btn-primary" onClick={nextPage}>
-              Next
-            </button>
-          </ul>
-        </nav>
+        <Pagination>
+          {/* <nav aria-label="..."> */}
+            {/* <ul className="pagination"> */}
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={prevPage}
+              >
+                Previous
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={nextPage}
+              >
+                Next
+              </button>
+            {/* </ul> */}
+          {/* </nav> */}
+        </Pagination>
       </Content>
     </CollectionsPageDiv>
   );
