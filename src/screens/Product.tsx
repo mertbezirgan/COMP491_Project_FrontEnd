@@ -93,6 +93,7 @@ const ProductPage: React.FC = () => {
   const sizeSizes = ["XS", "S", "M", "L", "XL"];
   const [sizeStock, setSizeStock] = useState<number[]>([]);
   const [sizeAvailable, setsizeAvailable] = useState<boolean[]>([]);
+  const [stock, setStock] = useState<number>();
 
 
   const checkOwnerShip = async (key: string) => {
@@ -120,6 +121,16 @@ const ProductPage: React.FC = () => {
     }
     setLoading(false);
   };
+
+
+  const setStockNumber = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    for (let i = 0; i < sizeSizes.length; i++) {
+      if (sizeSizes[i] === event.target.value) {
+        setStock(sizeStock[i]);
+      }
+    }
+  }
+
 
   const loadStock = async (product: IProduct) => {
     let sizeStock = [0, 0, 0, 0, 0];
@@ -230,13 +241,19 @@ const ProductPage: React.FC = () => {
               >
                 <h5>{product?.price}$</h5>
               </div>
+              {stock 
+              ? (<div>
+                <h5>{stock} units left</h5>
+              </div>)
+              : (<div>
+                </div>)}
               <div className="col-md-5">
-                <Form.Select>
-                  <option value="xs" disabled={sizeAvailable[0]}>XS</option>
-                  <option value="s" disabled={sizeAvailable[1]}>S</option>
-                  <option value="m" disabled={sizeAvailable[2]}>M</option>
-                  <option value="l" disabled={sizeAvailable[3]}>L</option>
-                  <option value="xl" disabled={sizeAvailable[4]}>XL</option>
+                <Form.Select onChange={setStockNumber}>
+                  <option value="XS" disabled={sizeAvailable[0]}>XS</option>
+                  <option value="S" disabled={sizeAvailable[1]}>S</option>
+                  <option value="M" disabled={sizeAvailable[2]}>M</option>
+                  <option value="L" disabled={sizeAvailable[3]}>L</option>
+                  <option value="XL" disabled={sizeAvailable[4]}>XL</option>
                 </Form.Select>
               </div>
               <Button
