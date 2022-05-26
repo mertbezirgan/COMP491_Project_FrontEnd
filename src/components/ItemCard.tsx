@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import IconButton from "@material-ui/core/IconButton";
 import { Product } from "../modal/Product/Product";
 import { Card } from "@material-ui/core";
 import { BackIcon, ForwardIcon } from "../asset/Icons";
 import IProduct from "../types/product.type";
+import Carousel from "react-bootstrap/Carousel";
 
 const StyledCard = styled(Card)`
   display: flex;
@@ -43,38 +44,33 @@ const ButtonGroup = styled.div`
 `;
 
 const ItemCard: React.FC<{ data: IProduct }> = ({ data }) => {
-  const [pickedImage, setPickedImage] = React.useState(data.token.image_url);
+
+  // const [index, setIndex] = useState(0);
+
+  // const handleSelect = (selectedIndex, e) => {
+  //   setIndex(selectedIndex);
+  // };
 
   const images = [
     data.token.image_url,
     ...data.productImages.map((image) => image.image_url),
-  ]
+  ];
 
-  const backClickHandler = () => {
-    const index = images.indexOf(pickedImage);
-    if (index > 0) {
-      setPickedImage(images[index - 1]);
-    }
-  };
-
-  const forwardClickHandler = () => {
-    const index = images.indexOf(pickedImage);
-    if (index < images.length - 1 && images.length > 1) {
-      setPickedImage(images[index + 1]);
-    }
+  const createImages = () => {
+    return images.map((image) => (
+      <Carousel.Item>
+        <img className="d-block w-100" src={image} alt="ahdbasşhjsdşs" />
+      </Carousel.Item>
+    ));
   };
 
   return (
     <StyledCard>
-      <img src={pickedImage} alt={data.name} />
-      <ButtonGroup>
-        <IconButton onClick={backClickHandler}>
-          <BackIcon />
-        </IconButton>
-        <IconButton onClick={forwardClickHandler}>
-          <ForwardIcon />
-        </IconButton>
-      </ButtonGroup>
+      {/* <Carousel activeIndex={index} onSelect={handleSelect}> */}
+      <Carousel>
+        {createImages()}
+      </Carousel>
+
       <h5>{data.name}</h5>
       <h6>Price: {data.price}₺</h6>
       <h6>Bundle price: {data.price}₺</h6>
