@@ -5,62 +5,62 @@ import { Link } from "react-router-dom";
 const Home: React.FC = () => {
   const featuresData = [
     {
-      icon: "fa fa-comments-o",
-      title: "Lorem ipsum",
-      text: "Lorem ipsum dolor sit amet placerat facilisis felis mi in tempus eleifend pellentesque natoque etiam.",
+      icon: "fa fa-money",
+      title: "Set up your wallet",
+      text: "Once you’ve set up your wallet of choice, connect it to OpenSea by clicking the wallet icon in the top right corner. Learn about the wallets we support.",
     },
     {
-      icon: "fa fa-bullhorn",
-      title: "Lorem ipsum",
-      text: "Lorem ipsum dolor sit amet placerat facilisis felis mi in tempus eleifend pellentesque natoque etiam.",
+      icon: "fa fa-th",
+      title: "Create your collection",
+      text: "Click My Collections and set up your collection. Add social links, a description, profile & banner images, and set a secondary sales fee.",
     },
     {
-      icon: "fa fa-group",
-      title: "Lorem ipsum",
-      text: "Lorem ipsum dolor sit amet placerat facilisis felis mi in tempus eleifend pellentesque natoque etiam.",
+      icon: "fa fa-picture-o",
+      title: "Add your NFTs",
+      text: "Upload your work (image, video, audio, or 3D art), add a title and description, and customize your NFTs with properties, stats, and unlockable content.",
     },
     {
-      icon: "fa fa-magic",
-      title: "Lorem ipsum",
-      text: "Lorem ipsum dolor sit amet placerat facilisis felis mi in tempus eleifend pellentesque natoque etiam.",
+      icon: "fa fa-tags",
+      title: "List them for sale",
+      text: "Choose between auctions, fixed-price listings, and declining-price listings. You choose how you want to sell your NFTs, and we help you sell them!",
     },
   ];
   const aboutData = {
     paragraph:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "As ShibArmy, we have created a website which is a marketplace for product related to NFTs. We’re building a community of artists, designers, and developers who are building the future of NFTs. Our idea is to create a place for people who want to wear their NFTs' fashion products.",
     Why: [
-      "Lorem ipsum dolor",
-      "Tempor incididunt",
-      "Lorem ipsum dolor",
-      "Incididunt ut labore",
+      "Buy unique products as NFTs",
+      "Be the only owner of the NFT products",
+      "%100 reliable and secure",
+      "Give your money to us, you wont regret it",
     ],
     Why2: [
-      "Aliquip ex ea commodo",
-      "Lorem ipsum dolor",
-      "Exercitation ullamco",
-      "Lorem ipsum dolor",
+      "We take your money and spend it on mainly food",
+      "Best market place after OpenSea.io",
+      "Call us, whenever you want to have a drink",
+      "We will do anything to sell",
     ],
   };
   const teamData = [
     {
       img: "img/team/01.jpg",
-      name: "John Doe",
-      job: "Director",
+      name: "Ekrem Yiğiter",
+      job: "Eko",
     },
     {
-      img: "img/team/02.jpg",
-      name: "Mike Doe",
-      job: "Senior Designer",
+      img: "https://media-exp1.licdn.com/dms/image/C5603AQFsw3sN4ix79g/profile-displayphoto-shrink_800_800/0/1591626359432?e=1658966400&v=beta&t=CitwxiEvWtCOYhZlL2A9sfV6Lm6HkDp4zRDzC2iOwRU",
+      name: "Mehmet Mert Bezirgan",
+      job: "Bezir",
+    },
+    {
+      img: "https://media-exp1.licdn.com/dms/image/C4D03AQEiZmM6jmQn2A/profile-displayphoto-shrink_800_800/0/1572985632349?e=1658966400&v=beta&t=WEUVHDSLY_ctv6GzZjIPjmPsZO3ow2BNnbP3lUgP68A",
+      name: "Orhan Ceyhun Aslan",
+      job: "CeyhunCFC9",
     },
     {
       img: "img/team/03.jpg",
-      name: "Jane Doe",
-      job: "Senior Designer",
-    },
-    {
-      img: "img/team/04.jpg",
-      name: "Karen Doe",
-      job: "Project Manager",
+      name: "Umut Öztunç",
+      job: "Pasha",
     },
   ];
 
@@ -153,8 +153,7 @@ const Home: React.FC = () => {
           <div className="col-md-offset-2 section-title">
             <h2>Meet the Team</h2>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit duis sed
-              dapibus leonec.
+            Geniuses behind this website
             </p>
           </div>
           <div className="row">
@@ -185,27 +184,21 @@ const Home: React.FC = () => {
           </div>
           <Accordion>
             <Accordion.Item eventKey="0">
-              <Accordion.Header>Question Item #1</Accordion.Header>
+              <Accordion.Header>Is it possible to buy the NFC from ShibArmy?</Accordion.Header>
               <Accordion.Body>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                Unfortunately, this feature is not released yet but expected in future updates.
               </Accordion.Body>
             </Accordion.Item>
             <Accordion.Item eventKey="1">
-              <Accordion.Header>Question Item #2</Accordion.Header>
+              <Accordion.Header>Where can I buy an NFT?</Accordion.Header>
               <Accordion.Body>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                NFTs can be bought from any solana website that lists our collection.
+              </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey="2">
+              <Accordion.Header>How many days before my purchase is delivered?</Accordion.Header>
+              <Accordion.Body>
+                It takes 2 to 10 days to deliver after shipping.
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>

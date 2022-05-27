@@ -133,7 +133,7 @@ const Collections: React.FC = () => {
     notOwned: false,
   });
   const [minPrice, setMinPrice] = React.useState<number>(0);
-  const [maxPrice, setMaxPrice] = React.useState<number>(500);
+  const [maxPrice, setMaxPrice] = React.useState<number>(5000);
   const [offset, setOffset] = React.useState<number>(0);
 
   function handleChangeCheckbox(event: {
