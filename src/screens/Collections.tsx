@@ -13,7 +13,7 @@ import Input from "@material-ui/core/Input";
 import Button from "@material-ui/core/Button";
 import IProduct from "../types/product.type";
 import { Link } from "react-router-dom";
-import { Col, Form, Row, Accordion } from "react-bootstrap";
+import { Col, Form, Row, Accordion, Spinner } from "react-bootstrap";
 import { IconButton } from "@material-ui/core";
 import { Prev } from "react-bootstrap/esm/PageItem";
 
@@ -125,7 +125,7 @@ const Pagination = styled.div`
 
 const Collections: React.FC = () => {
   const [productsList, setProductList] = useState<IProduct[]>([]);
-
+  const [loading, setLoading] = useState<boolean>(true);
   const [extendOwned, setExtendOwned] = React.useState(false);
 
   const [checked, setChecked] = React.useState({
@@ -165,6 +165,7 @@ const Collections: React.FC = () => {
       return data.data;
     };
     const res = fetch();
+    setLoading(false);
   }, [minPrice, maxPrice, offset]);
 
   //Creating product list after fetching data
@@ -177,109 +178,117 @@ const Collections: React.FC = () => {
   });
 
   const prevPage = () => {
-    if (offset - 5 < 0) {
+    if (offset - 10 < 0) {
       // ALERT
     } else {
-      setOffset(offset - 5);
+      setOffset(offset - 10);
     }
   };
 
   const nextPage = () => {
-    setOffset(offset + 5);
+    setOffset(offset + 10);
   };
 
   // console.log(minPrice, maxPrice);
   console.log(offset);
 
   return (
-    <CollectionsPageDiv>
-      <SidebarDiv>
-        <Accordion defaultActiveKey={["0"]} alwaysOpen>
-          <Accordion.Item eventKey="2">
-            <Accordion.Header>Price</Accordion.Header>
-            <Accordion.Body>
-              <label className="mt-2 form-label">Min Price</label>
-              <span>
-                <input
-                  type="range"
-                  style={{
-                    width: "70%",
-                    verticalAlign: "middle",
-                  }}
-                  value={minPrice}
-                  onChange={(e) => setMinPrice(parseInt(e.target.value))}
-                  className="form-range"
-                  min="0"
-                  max={maxPrice}
-                  step="10"
-                />
-                <span
-                  style={{
-                    marginLeft: "10px",
-                  }}
-                >
-                  {minPrice}
-                </span>
-              </span>
-
-              <label className="mt-2 form-label">Max Price</label>
-              <span>
-                <input
-                  type="range"
-                  style={{
-                    width: "70%",
-                  }}
-                  value={maxPrice}
-                  onChange={(e) => setMaxPrice(parseInt(e.target.value))}
-                  className="form-range"
-                  min={minPrice}
-                  max="500"
-                  step="10"
-                />
-                <span
-                  style={{
-                    marginLeft: "10px",
-                  }}
-                >
-                  {maxPrice}
-                </span>
-              </span>
-            </Accordion.Body>
-          </Accordion.Item>
-
-          <Accordion.Item eventKey="1">
-            <Accordion.Header>Details</Accordion.Header>
-            <Accordion.Body>
-              <div>
-                <FormControlLabel
-                  className="title"
-                  control={
-                    <Checkbox
-                      checked={checked.owned}
-                      onChange={handleChangeCheckbox}
-                      name="owned"
+    <div>
+      {loading ? (
+        <div className="pt-15 pb-15" >
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div >
+      ) : (
+        <CollectionsPageDiv>
+          <SidebarDiv>
+            <Accordion defaultActiveKey={["0"]} alwaysOpen>
+              <Accordion.Item eventKey="2">
+                <Accordion.Header>Price</Accordion.Header>
+                <Accordion.Body>
+                  <label className="mt-2 form-label">Min Price</label>
+                  <span>
+                    <input
+                      type="range"
+                      style={{
+                        width: "70%",
+                        verticalAlign: "middle",
+                      }}
+                      value={minPrice}
+                      onChange={(e) => setMinPrice(parseInt(e.target.value))}
+                      className="form-range"
+                      min="0"
+                      max={maxPrice}
+                      step="10"
                     />
-                  }
-                  label="Owned"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={checked.notOwned}
-                      onChange={handleChangeCheckbox}
-                      name="notOwned"
-                    />
-                  }
-                  label="Not Owned"
-                />
-              </div>
-            </Accordion.Body>
-          </Accordion.Item>
-        </Accordion>
-      </SidebarDiv>
+                    <span
+                      style={{
+                        marginLeft: "10px",
+                      }}
+                    >
+                      {minPrice}
+                    </span>
+                  </span>
 
-      <Content>
-        {/* <FilterInfoBar>
+                  <label className="mt-2 form-label">Max Price</label>
+                  <span>
+                    <input
+                      type="range"
+                      style={{
+                        width: "70%",
+                      }}
+                      value={maxPrice}
+                      onChange={(e) => setMaxPrice(parseInt(e.target.value))}
+                      className="form-range"
+                      min={minPrice}
+                      max="500"
+                      step="10"
+                    />
+                    <span
+                      style={{
+                        marginLeft: "10px",
+                      }}
+                    >
+                      {maxPrice}
+                    </span>
+                  </span>
+                </Accordion.Body>
+              </Accordion.Item>
+
+              <Accordion.Item eventKey="1">
+                <Accordion.Header>Details</Accordion.Header>
+                <Accordion.Body>
+                  <div>
+                    <FormControlLabel
+                      className="title"
+                      control={
+                        <Checkbox
+                          checked={checked.owned}
+                          onChange={handleChangeCheckbox}
+                          name="owned"
+                        />
+                      }
+                      label="Owned"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checked.notOwned}
+                          onChange={handleChangeCheckbox}
+                          name="notOwned"
+                        />
+                      }
+                      label="Not Owned"
+                    />
+                  </div>
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+          </SidebarDiv>
+
+          <Content>
+            {/* <FilterInfoBar>
           <div
             style={{
               padding: "5px",
@@ -289,11 +298,11 @@ const Collections: React.FC = () => {
           </div>
         </FilterInfoBar> */}
 
-        <Table>{productsCards}</Table>
+            <Table>{productsCards}</Table>
 
-        <Pagination>
-          {/* <nav aria-label="..."> */}
-            {/* <ul className="pagination"> */}
+            <Pagination>
+              {/* <nav aria-label="..."> */}
+              {/* <ul className="pagination"> */}
               <button
                 type="button"
                 className="btn btn-primary"
@@ -308,11 +317,12 @@ const Collections: React.FC = () => {
               >
                 Next
               </button>
-            {/* </ul> */}
-          {/* </nav> */}
-        </Pagination>
-      </Content>
-    </CollectionsPageDiv>
+              {/* </ul> */}
+              {/* </nav> */}
+            </Pagination>
+          </Content>
+        </CollectionsPageDiv>)};
+    </div>
   );
 };
 
