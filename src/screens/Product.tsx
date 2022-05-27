@@ -194,6 +194,13 @@ const ProductPage: React.FC = () => {
                       alt="Second slide"
                     />
                   </Carousel.Item>
+                  <Carousel.Item>
+                    <img
+                      className="d-block w-100"
+                      src={product?.productImages[1].image_url}
+                      alt="Third slide"
+                    />
+                  </Carousel.Item>
                 </Carousel>
               </div>
               <div className="col-md-12">
@@ -217,6 +224,8 @@ const ProductPage: React.FC = () => {
                   </Accordion.Item>
                 </Accordion>
               </div>
+            </div>
+            <div className="col-md-1">
             </div>
             <div className="col-md-7 rightDiv">
               <div>
