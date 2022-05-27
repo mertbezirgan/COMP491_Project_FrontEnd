@@ -1,11 +1,12 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import styled from "styled-components";
-import { Button, Accordion, Form, Spinner, Carousel } from 'react-bootstrap';
+import { Button, Accordion, Form, Spinner, Carousel } from "react-bootstrap";
 import IProduct from "../types/product.type";
 import { getProduct } from "../services/Product/product.service";
-import { useParams } from "react-router-dom";
+import { Redirect, useParams } from "react-router-dom";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
+import IStockKeepingUnit from "../types/stockKeepingUnit.type";
 
 const Styles = styled.div`
   .pageMainDiv {
@@ -82,7 +83,6 @@ const Styles = styled.div`
   }
 `;
 
-
 const ProductPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<IProduct | null>(null);
@@ -94,7 +94,10 @@ const ProductPage: React.FC = () => {
   const [sizeStock, setSizeStock] = useState<number[]>([]);
   const [sizeAvailable, setsizeAvailable] = useState<boolean[]>([]);
   const [stock, setStock] = useState<number>();
-
+  const [selectedSKU, setselectedSKU] = useState<IStockKeepingUnit | null>(
+    null
+  );
+  const [redirect, setredirect] = useState<boolean>(false);
 
   const checkOwnerShip = async (key: string) => {
     console.log(publicKey);
@@ -122,34 +125,47 @@ const ProductPage: React.FC = () => {
     setLoading(false);
   };
 
-
   const setStockNumber = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log(event.target.value);
     for (let i = 0; i < sizeSizes.length; i++) {
       if (sizeSizes[i] === event.target.value) {
         setStock(sizeStock[i]);
       }
     }
-  }
-
+    for (let i = 0; i < product!.stockKeepingUnits.length; i++) {
+      const element = product!.stockKeepingUnits[i];
+      // console.log("element.size", element.size);
+      // console.log("event.target.value", event.target.value);
+      if (element.size === event.target.value) {
+        // console.log("selected sku", element);
+        setselectedSKU(element);
+      }
+    }
+  };
 
   const loadStock = async (product: IProduct) => {
     let sizeStock = [0, 0, 0, 0, 0];
-          let sizeAvailable = [true, true, true, true, true];
-          for (let i = 0; i < sizeStock.length; i++) {
-            for (let j = 0; j < product.stockKeepingUnits.length; j++) {
-              if (product.stockKeepingUnits[j].size === sizeSizes[i]) {
-                sizeStock[i] = product.stockKeepingUnits[j].stock;
-                if (sizeStock[i] > 0) {
-                  sizeAvailable[i] = false;
-                }
-              }
-            }
+    let sizeAvailable = [true, true, true, true, true];
+    for (let i = 0; i < sizeStock.length; i++) {
+      for (let j = 0; j < product.stockKeepingUnits.length; j++) {
+        if (product.stockKeepingUnits[j].size === sizeSizes[i]) {
+          sizeStock[i] = product.stockKeepingUnits[j].stock;
+          if (sizeStock[i] > 0) {
+            sizeAvailable[i] = false;
           }
-          setSizeStock(sizeStock);
-          setsizeAvailable(sizeAvailable);
-  }
+        }
+      }
+    }
+    setSizeStock(sizeStock);
+    setsizeAvailable(sizeAvailable);
+  };
 
-  console.log(product);
+  const handlePurchase = async () => {
+    if (!loading && owned && selectedSKU != null) {
+      //redirect
+      setredirect(true);
+    }
+  };
 
   useEffect(() => {
     if (publicKey) {
@@ -164,9 +180,9 @@ const ProductPage: React.FC = () => {
     }
   }, [publicKey]);
 
-
   return (
     <Styles>
+      {redirect ? <Redirect to={"/checkout/" + selectedSKU?.id} /> : null}
       <div className="container">
         {loading ? (
           <div className="pt-15 pb-15 pageMainDiv">
@@ -178,8 +194,7 @@ const ProductPage: React.FC = () => {
           <div className="pt-5 pb-5 pageMainDiv">
             <div className="col-md-5 leftDiv">
               <div className="imageDiv">
-
-                <Carousel variant='dark' style={{ height: "800px" }}>
+                <Carousel variant="dark" style={{ height: "800px" }}>
                   <Carousel.Item>
                     <img
                       className="d-block w-100"
@@ -204,8 +219,7 @@ const ProductPage: React.FC = () => {
                 </Carousel>
               </div>
               <div className="col-md-12">
-                <Accordion defaultActiveKey={['0']} alwaysOpen>
-
+                <Accordion defaultActiveKey={["0"]} alwaysOpen>
                   <Accordion.Item eventKey="2">
                     <Accordion.Header>Description</Accordion.Header>
                     <Accordion.Body>
@@ -217,24 +231,21 @@ const ProductPage: React.FC = () => {
                   <Accordion.Item eventKey="1">
                     <Accordion.Header>Details</Accordion.Header>
 
-                    <Accordion.Body>
-                      {product?.token.createdAt}
-                    </Accordion.Body>
-
+                    <Accordion.Body>{product?.token.createdAt}</Accordion.Body>
                   </Accordion.Item>
                 </Accordion>
               </div>
             </div>
-            <div className="col-md-1">
-            </div>
+            <div className="col-md-1"></div>
             <div className="col-md-7 rightDiv">
               <div>
-
-                <h1 className="fs-5">by <span className="text-primary">Eko</span></h1>
+                <h1 className="fs-5">
+                  by <span className="text-primary">Eko</span>
+                </h1>
               </div>
               <div>
-                <h2 className="fs-1"
-
+                <h2
+                  className="fs-1"
                   style={{
                     fontWeight: "bold",
                   }}
@@ -250,19 +261,30 @@ const ProductPage: React.FC = () => {
               >
                 <h5>{product?.price}$</h5>
               </div>
-              {stock 
-              ? (<div>
-                <h5>{stock} units left</h5>
-              </div>)
-              : (<div>
-                </div>)}
+              {stock ? (
+                <div>
+                  <h5>{stock} units left</h5>
+                </div>
+              ) : (
+                <div></div>
+              )}
               <div className="col-md-5">
                 <Form.Select onChange={setStockNumber}>
-                  <option value="XS" disabled={sizeAvailable[0]}>XS</option>
-                  <option value="S" disabled={sizeAvailable[1]}>S</option>
-                  <option value="M" disabled={sizeAvailable[2]}>M</option>
-                  <option value="L" disabled={sizeAvailable[3]}>L</option>
-                  <option value="XL" disabled={sizeAvailable[4]}>XL</option>
+                  <option value="XS" disabled={sizeAvailable[0]}>
+                    XS
+                  </option>
+                  <option value="S" disabled={sizeAvailable[1]}>
+                    S
+                  </option>
+                  <option value="M" disabled={sizeAvailable[2]}>
+                    M
+                  </option>
+                  <option value="L" disabled={sizeAvailable[3]}>
+                    L
+                  </option>
+                  <option value="XL" disabled={sizeAvailable[4]}>
+                    XL
+                  </option>
                 </Form.Select>
               </div>
               <Button
@@ -273,16 +295,16 @@ const ProductPage: React.FC = () => {
                   marginTop: "50px",
                   fontSize: "30px",
                   fontWeight: "bold",
-
                 }}
                 disabled={!owned || loading}
+                onClick={handlePurchase}
               >
                 <i className="fa fa-money"></i>{" "}
                 {loading
                   ? "loading"
                   : owned
-                    ? "Buy NOW"
-                    : "You need to own the related nft!"}
+                  ? "Buy NOW"
+                  : "You need to own the related nft!"}
               </Button>
             </div>
           </div>
