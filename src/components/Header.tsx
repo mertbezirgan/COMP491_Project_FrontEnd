@@ -36,9 +36,12 @@ const Header: React.FC<HeaderProps> = ({ logout }) => {
             <WalletMultiButton />
             <WalletDisconnectButton />
             {logged ? (
-              <Nav.Link>
-                <Button onClick={logout}>Logout</Button>
-              </Nav.Link>
+              <>
+                <Nav.Link>
+                  <Button onClick={logout}>Logout</Button>
+                </Nav.Link>
+                <Nav.Link href="/profile">Profile</Nav.Link>
+              </>
             ) : (
               <>
                 <Nav.Link href="/login">
