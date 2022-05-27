@@ -10,16 +10,16 @@ import Carousel from "react-bootstrap/Carousel";
 const StyledCard = styled(Card)`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   overflow-y: scroll;
   padding: 15px;
   width: 300px;
-  height: 450px;
-  // background: #2e2e2e !important;
+  height: 580px;
 
   img {
     margin-bottom: 10px;
     width: 270;
-    height: 270px;
+    height: 400px;
     border-radius: 4px;
   }
 
@@ -44,7 +44,6 @@ const ButtonGroup = styled.div`
 `;
 
 const ItemCard: React.FC<{ data: IProduct }> = ({ data }) => {
-
   // const [index, setIndex] = useState(0);
 
   // const handleSelect = (selectedIndex, e) => {
@@ -67,13 +66,26 @@ const ItemCard: React.FC<{ data: IProduct }> = ({ data }) => {
   return (
     <StyledCard>
       {/* <Carousel activeIndex={index} onSelect={handleSelect}> */}
-      <Carousel>
-        {createImages()}
-      </Carousel>
-
-      <h5>{data.name}</h5>
-      <h6>Price: {data.price}₺</h6>
-      <h6>Bundle price: {data.price}₺</h6>
+      <div>
+        <Carousel>{createImages()}</Carousel>
+        <h5>{data.name}</h5>
+      </div>
+      <div>
+        <h6
+          style={{
+            bottom: "20",
+          }}
+        >
+          Price: {data.price}$
+        </h6>
+        <h6
+          style={{
+            bottom: "0",
+          }}
+        >
+          Bundle price: {data.price}$
+        </h6>
+      </div>
     </StyledCard>
   );
 };

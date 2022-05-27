@@ -171,7 +171,9 @@ const Collections: React.FC = () => {
   //Creating product list after fetching data
   const productsCards = productsList.map((product) => {
     return (
-      <Link to={`product/${product.id}`} key={product.id}>
+      <Link style={{
+        textDecoration: 'none',
+      }} to={`product/${product.id}`} key={product.id}>
         <ItemCard data={product} />
       </Link>
     );
