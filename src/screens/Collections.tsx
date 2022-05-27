@@ -148,7 +148,7 @@ const Collections: React.FC = () => {
     const input = {
       minPrice: minPrice,
       maxPrice: maxPrice,
-      limit: 5,
+      limit: 10,
       offset: offset,
     };
 
@@ -158,7 +158,7 @@ const Collections: React.FC = () => {
       if (data.data.data.length > 0) {
         setProductList(data.data.data);
       } else {
-        setOffset(offset - 5);
+        setOffset(offset - 10);
       }
 
       console.log(data.data.data);
