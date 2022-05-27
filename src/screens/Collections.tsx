@@ -195,11 +195,11 @@ const Collections: React.FC = () => {
   return (
     <div>
       {loading ? (
-        <div className="pt-15 pb-15" >
+        <div className="pt-15 pb-15">
           <Spinner animation="border" role="status">
             <span className="visually-hidden">Loading...</span>
           </Spinner>
-        </div >
+        </div>
       ) : (
         <CollectionsPageDiv>
           <SidebarDiv>
@@ -207,12 +207,14 @@ const Collections: React.FC = () => {
               <Accordion.Item eventKey="2">
                 <Accordion.Header>Price</Accordion.Header>
                 <Accordion.Body>
-                  <label className="mt-2 form-label">Min Price</label>
-                  <span>
+                  <FilterTitle>
+                    <label className="mt-2 form-label">Min Price</label>
+                  </FilterTitle>
+                  <div>
                     <input
                       type="range"
                       style={{
-                        width: "70%",
+                        width: "75%",
                         verticalAlign: "middle",
                       }}
                       value={minPrice}
@@ -224,63 +226,36 @@ const Collections: React.FC = () => {
                     />
                     <span
                       style={{
-                        marginLeft: "10px",
+                        marginLeft: "20px",
                       }}
                     >
                       {minPrice}
                     </span>
-                  </span>
+                  </div>
 
-                  <label className="mt-2 form-label">Max Price</label>
-                  <span>
+                  <div>
+                    <FilterTitle>
+                      <label className="mt-2 form-label">Max Price</label>
+                    </FilterTitle>
                     <input
                       type="range"
                       style={{
-                        width: "70%",
+                        width: "75%",
                       }}
                       value={maxPrice}
                       onChange={(e) => setMaxPrice(parseInt(e.target.value))}
                       className="form-range"
                       min={minPrice}
-                      max="500"
+                      max="1500"
                       step="10"
                     />
                     <span
                       style={{
-                        marginLeft: "10px",
+                        marginLeft: "20px",
                       }}
                     >
                       {maxPrice}
                     </span>
-                  </span>
-                </Accordion.Body>
-              </Accordion.Item>
-
-              <Accordion.Item eventKey="1">
-                <Accordion.Header>Details</Accordion.Header>
-                <Accordion.Body>
-                  <div>
-                    <FormControlLabel
-                      className="title"
-                      control={
-                        <Checkbox
-                          checked={checked.owned}
-                          onChange={handleChangeCheckbox}
-                          name="owned"
-                        />
-                      }
-                      label="Owned"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checked.notOwned}
-                          onChange={handleChangeCheckbox}
-                          name="notOwned"
-                        />
-                      }
-                      label="Not Owned"
-                    />
                   </div>
                 </Accordion.Body>
               </Accordion.Item>
@@ -321,7 +296,9 @@ const Collections: React.FC = () => {
               {/* </nav> */}
             </Pagination>
           </Content>
-        </CollectionsPageDiv>)};
+        </CollectionsPageDiv>
+      )}
+      ;
     </div>
   );
 };
